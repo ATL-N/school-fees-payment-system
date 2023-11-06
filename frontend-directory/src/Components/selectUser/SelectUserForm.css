@@ -1,0 +1,124 @@
+/* SelectUserForm.css */
+
+/* Container for the search input and dropdown */
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+/* Search input field */
+.search-input-container {
+  position: relative;
+  width: 95vw;
+  justify-content: center;
+}
+
+.search-input {
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+/* Custom dropdown */
+.custom-dropdown {
+  /* position: absolute; */
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: auto;
+  max-height: 50vh;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  display: block;
+  overflow: hidden;
+  overflow: auto;
+}
+
+.custom-dropdown.open {
+  display: block;
+}
+
+.custom-dropdown ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.link-none{
+  display: flex;
+  text-decoration: none;
+  color: inherit;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.bold-div{
+  font-weight: bolder;
+  font-size: x-large;
+  font-weight: bolder;
+}
+
+.custom-dropdown li {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  text-align: left;
+  cursor: pointer;
+
+}
+
+.custom-dropdown li:last-child {
+  border-bottom: none;
+}
+
+.custom-dropdown li:hover {
+  background-color: #f2f2f2;
+}
+
+/* Search button */
+.search-button {
+  background-color: #00a2a2;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+}
+
+
+/* Add this CSS to your stylesheet (e.g., SelectUserForm.css) */
+
+
+
+.link {
+  text-decoration: none;
+  color: #00a2a2;
+  font-weight: bold;
+}
+
+.link:hover {
+  /* text-decoration: underline; */
+  color: #0056b3;
+}
+
+
+.div3{
+  width: 90vw;
+}
+
+.div4{
+  width: 90%;
+}
+

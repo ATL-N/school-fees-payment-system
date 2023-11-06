@@ -1,0 +1,103 @@
+*{
+    box-sizing:border-box;
+    padding:0;
+    margin: 0;
+  }
+  
+  body {
+    --color-blue:#00a2a2;
+    --color-error: #fd5866;
+    --color-yellow: #fdc82f;
+    --color-white: white;
+    --color-green: #90d04e;
+    --color-black: black;
+    --color-gray: #2C2B26;
+  
+    background-color: #f2f2f2;
+    color: #333;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    /* background-image: linear-gradient(to bottom, var(--color-green) , var(--color-yellow)); */
+  
+  }
+
+/* Add your CSS styles here */
+.dashboard {
+    background-color: #f2f2f2;
+    color: #333;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    background-color: #007bff;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+}
+
+.nav {
+    background-color: #333;
+    color: #fff;
+}
+
+.nav-ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-around;
+    padding: 0.5rem 0;
+}
+
+.nav-li {
+    margin-right: 1rem;
+}
+
+.nav-li:last-child {
+    margin-right: 0;
+}
+
+.nav-a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 1rem;
+}
+
+.widget {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 1rem;
+    margin: 1rem;
+    width: calc(33.33% - 2rem);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .main {
+        flex-direction: column;
+    }
+
+    .widget {
+        width: 100%;
+        margin: 0 0 1rem 0;
+    }
+}

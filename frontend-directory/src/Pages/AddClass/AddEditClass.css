@@ -1,0 +1,137 @@
+body {
+    --color-blue:#00a2a2;
+    --color-error: #fd5866;
+    --color-yellow: #fdc82f;
+    --color-white: white;
+    --color-green: #90d04e;
+    --color-black: black;
+    --color-gray: #ccc;
+    --color-dark-gray: #333;
+  
+    background-color: #f2f2f2;
+    color: #333;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    /* background-image: linear-gradient(to bottom, var(--color-green) , var(--color-yellow)); */
+  
+  }
+  
+  
+  .form-container {
+    background-color: #f2f2f2;
+    color: var(--color-dark-gray);
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    padding: 1rem;
+    max-height: 75vh;
+    height: max-content;
+    border-radius: 10px;
+    overflow: hidden;
+    overflow-y: auto;
+  }
+  
+  
+  .input-area-container{
+    display: grid;
+    justify-content: center;
+    margin-top: 0px;
+  }
+
+  .form-info{
+    margin: 40px 0 0 0;
+  }
+  
+  .input-area-div{
+    grid-template-rows: auto 40px;
+    grid-template-areas: 
+    'withoutButtons' 
+    'navButtons';
+    box-shadow: 0px 3px 3px 5px rgba(0,0,0,0.1);
+    padding: 20px;
+    border-radius: 10px;
+    max-height: 70vh;
+    height: max-content;
+    width: 50vw;
+    place-items: center;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    overflow: scroll;
+    margin-top: 20px;
+    background-color: white;
+  }
+
+  
+  .form-input-div{
+    display: grid;
+    grid-auto-flow:column;
+    grid-template-columns: 30% 70%;
+    align-items: center;
+    overflow: hidden;
+    margin: 10px 0;
+  }
+  
+    
+    .form-field {
+      margin-bottom: 1rem;
+    }
+    
+    .form-label {
+      font-weight: bold;
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: 0.5rem;
+      /* border: 1px solid #ccc; */
+      border-radius: 4px;
+      font-size: 16px;
+    }
+  
+    .nav-buttons{
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding-top: 20px;
+    }
+    
+    
+    .form-button {
+      background-color: var(--color-blue);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 0.5rem 1rem;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  
+     
+    .form-button:hover {
+      background-color: #0056b3;
+    }
+    .form-button:active{
+      padding: 0.4rem 0.9rem;
+    }
+  
+    .clear-btn{
+      background-color: var(--color-error);
+    }
+  
+    .clear-btn:hover{
+      background-color: red;
+    }
+  
+    .div2{
+      height: max-content;
+    }
+
+    .div3{
+      width: 70vw;
+    }
+
+    .div4{
+      width: 90%;
+    }
