@@ -1,7 +1,12 @@
 {
-  "routes": [
-    { "src": "/", "dest": "/" },
-    { "src": "/recruit", "dest": "/" },
-    { "src": "/tos", "dest": "/" }
-  ]
-}
+    "version": 2,
+    "builds": [
+      {
+        "src": "index.js",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      { "src": "/", "dest": "/" }
+    ]
+  }
