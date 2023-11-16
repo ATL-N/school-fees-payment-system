@@ -52,7 +52,7 @@ export const FeesAdding = () => {
 
   const resetForm = () => {
     const confirmReset = window.confirm(
-      "Are you sure you want to reset the form?"
+      "Are you sure you want to reset the form? This action is permanent"
     );
     if (confirmReset) {
       setFeesAddingFormData(initialState);

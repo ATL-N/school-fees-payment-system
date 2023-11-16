@@ -1,9 +1,10 @@
+//0210019016
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const multer = require("multer");
 const path = require("path");
 const bcrypt = require("bcrypt");
@@ -18,14 +19,6 @@ const db = mysql.createPool({
   database: "SchoolFeesSystem",
 });
 
-const formatDate = (date) => {
-  const currentDate = new Date(date);
-  const year = currentDate.getFullYear();
-  const month = currentDate.getMonth() + 1;
-  const day = currentDate.getDate();
-  const formattedDate = `${year}-${month}-${day}`;
-  return formattedDate;
-};
 
 app.use(
   cors({
@@ -76,9 +69,8 @@ db.getConnection((err, connection) => {
 
     const upload = multer({ storage }); // Create a multer instance
 
-
     app.get("/", (req, res) => {
-      res.send('server running on port 5050')
+      res.send("server running on port 5050");
     });
 
     app.get("/home", (req, res) => {
@@ -567,11 +559,9 @@ db.getConnection((err, connection) => {
                       });
                     }); // console.log(req.session.userDetails);
                   } else {
-                    res
-                      .status(200)
-                      .json({
-                        error: `Wrong old password. password update unsuccessful. `,
-                      }); // Send a success response
+                    res.status(200).json({
+                      error: `Wrong old password. password update unsuccessful. `,
+                    }); // Send a success response
                   }
                 }
               );
@@ -655,101 +645,289 @@ db.getConnection((err, connection) => {
         subjectId,
         staffName,
         staffId,
-        studentName,
-        studentId,
         className,
         classId,
         semester,
         year,
-        classCore,
-        examScore,
-        totalScore,
+        scores,
       } = req.body;
+    
+      let gradeId;
+      let gradeName;
+    
+      const scoreEntries = Object.entries(scores);
+      console.log("scores", scores);
+    
+      // Use a variable to track whether any errors occurred during processing
+      let hasError = false;
+    
+      scoreEntries.forEach(([studentId, scoreData], index, array) => {
+        const { classCore, totalScore, examsCore, studentName } = scoreData;
+    
+        // Check if a subject with the same name already exists
+        const checkQuery =
+          "SELECT COUNT(*) as count FROM StudentGrades WHERE StudentID = ? AND SubjectID = ? AND ClassID = ? AND Semester = ? AND Deleted='No'";
+        db.query(
+          checkQuery,
+          [studentId, subjectId, classId, semester],
+          async (checkError, checkResult) => {
+            if (checkError) {
+              console.log(checkError);
+              hasError = true;
+            } else {
+              if (checkResult[0].count > 0) {
+                const sqlgetGrade =
+                  "SELECT * FROM Grades WHERE MinGrade <= ? AND MaxGrade >= ? AND Deleted = 'No'";
+                db.query(
+                  sqlgetGrade,
+                  [parseFloat(totalScore), parseFloat(totalScore)],
+                  (error, [rows]) => {
+                    if (error) {
+                      console.log(error);
+                      hasError = true;
+                    } else {
+                      if (rows) {
+                        gradeId = rows.id;
+                        gradeName = rows.GradeName;
+                        console.log("gradeId", gradeId, gradeName);
+                        const sqlUpdate = `UPDATE StudentGrades SET StudentID=?, SubjectID=?, StaffID=?, Semester=?, AcademicYear=?, TotalScore=?, ClassScore=?, ExamScore=?, ClassID=?, StudentName=?, SubjectName=?, ClassName=?, GradeName=?, GradeID=?, StaffName=? WHERE StudentID=? AND SubjectID=? AND ClassID=? AND Semester=?`;
+                        db.query(
+                          sqlUpdate,
+                          [
+                            studentId,
+                            subjectId,
+                            staffId,
+                            semester,
+                            year,
+                            totalScore,
+                            classCore,
+                            examsCore,
+                            classId,
+                            studentName,
+                            subjectName,
+                            className,
+                            gradeName,
+                            gradeId,
+                            staffName,
+                            studentId, // Add these parameters for WHERE clause
+                            subjectId,
+                            classId,
+                            semester,
+                          ],
+                          (error, result) => {
+                            if (error) {
+                              console.log(error);
+                              hasError = true;
+                            } else {
+                              console.log(
+                                "Data updated successfully",
+                                subjectName
+                              );
+                            }
+                            // If it's the last iteration, send the response
+                            if (index === array.length - 1) {
+                              sendResponse();
+                            }
+                          }
+                        );
+                      } else {
+                        hasError = true;
+                      }
+                    }
+                  }
+                );
+              } else {
+                const sqlgetGrade =
+                  "SELECT * FROM Grades WHERE MinGrade <= ? AND MaxGrade >= ? AND Deleted = 'No'";
+                db.query(
+                  sqlgetGrade,
+                  [parseFloat(totalScore), parseFloat(totalScore)],
+                  (error, [rows]) => {
+                    if (error) {
+                      console.log(error);
+                      hasError = true;
+                    } else {
+                      console.log("running else", rows);
+                      if (rows) {
+                        gradeId = rows.id;
+                        gradeName = rows.GradeName;
+                        console.log("gradeId", gradeId, gradeName);
+                        const sqlInsert =
+                          "INSERT INTO StudentGrades (StudentID, SubjectID, StaffID, Semester, AcademicYear, TotalScore, ClassScore, ExamScore, ClassID, StudentName, SubjectName, ClassName, GradeName, GradeID, StaffName ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                        db.query(
+                          sqlInsert,
+                          [
+                            studentId,
+                            subjectId,
+                            staffId,
+                            semester,
+                            year,
+                            totalScore,
+                            classCore,
+                            examsCore,
+                            classId,
+                            studentName,
+                            subjectName,
+                            className,
+                            gradeName,
+                            gradeId,
+                            staffName,
+                          ],
+                          (error, result) => {
+                            if (error) {
+                              console.log(error);
+                              hasError = true;
+                            } else {
+                              console.log(
+                                "Data inserted successfully",
+                                subjectName
+                              );
+                            }
+                            // If it's the last iteration, send the response
+                            if (index === array.length - 1) {
+                              sendResponse();
+                            }
+                          }
+                        );
+                      } else {
+                        hasError = true;
+                      }
+                    }
+                  }
+                );
+              }
+            }
+          }
+        );
+      });
+    
+      // Function to send the response
+      const sendResponse = () => {
+        if (hasError) {
+          res.status(500).json({ error: "Internal Server Error" });
+        } else {
+          res.status(200).json({ message: "Data inserted/updated successfully" });
+        }
+      };
+    });
+    
 
+    app.post("/api/takeAttendance", async (req, res) => {
+      console.log("REQ BODY", req.body);
+      const {
+        className,
+        classId,
+        semester, 
+        attendance
+      } = req.body;
+    
       let gradeId;
       let gradeName;
 
-      // Check if a subject with the same name already exists
-      const checkQuery =
-        "SELECT COUNT(*) as count FROM StudentGrades WHERE StudentID = ? AND SubjectID = ? AND ClassID = ? AND Semester = ? AND Deleted='No'";
-      db.query(
-        checkQuery,
-        [studentId, subjectId, classId, semester],
-        async (checkError, checkResult) => {
-          if (checkError) {
-            console.log(checkError);
-            res.status(500).json({ error: "Internal Server Error" });
-          } else {
-            if (checkResult[0].count > 0) {
-              res.status(400).json({ error: "Mark already entered" });
+      const currentDate = new Date();
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth() + 1;
+      const day = currentDate.getDate();
+      const formattedDate = `${year}-${month}-${day}`;
+      console.log("formattedDate", formattedDate);
+    
+      const scoreEntries = Object.entries(attendance);
+      console.log("attendance", attendance);
+    
+      // Use a variable to track whether any errors occurred during processing
+      let hasError = false;
+    
+      attendanceEntries.forEach(([studentId, attendanceData], index, array) => {
+        const { status, studentName } = attendanceData;
+    
+        // Check if a subject with the same name already exists
+        const checkQuery =
+          "SELECT COUNT(*) as count FROM AttendanceTable WHERE StudentID = ? AND  DATE(AttendanceDate) = DATE(?) ";
+        db.query(
+          checkQuery,
+          [studentId, formattedDate],
+          async (checkError, checkResult) => {
+            if (checkError) {
+              console.log(checkError);
+              hasError = true;
             } else {
-              const sqlgetGrade =
-                "SELECT * FROM Grades WHERE MinGrade <= ? AND MaxGrade >= ? AND Deleted = 'No'";
-              db.query(
-                sqlgetGrade,
-                [parseFloat(totalScore), parseFloat(totalScore)],
-                (error, [rows]) => {
-                  if (error) {
-                    console.log(error);
-                    res.status(500).json({ error: "Internal Server Error" });
-                  } else {
-                    console.log("running else", rows);
-                    if (rows) {
-                      gradeId = rows.id;
-                      gradeName = rows.GradeName;
-                      console.log("gradeId", gradeId, gradeName);
-                      // res.json({ gradeId: gradeId, gradeName: gradeName});
-                      const sqlInsert =
-                        "INSERT INTO StudentGrades (StudentID, SubjectID, StaffID, Semester, AcademicYear, TotalScore, ClassScore, ExamScore, ClassID, StudentName, SubjectName, ClassName, GradeName, GradeID, StaffName ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-                      console.log("gradeId", gradeId, gradeName);
-                      db.query(
-                        sqlInsert,
-                        [
-                          studentId,
-                          subjectId,
-                          staffId,
-                          semester,
-                          year,
-                          totalScore,
-                          classCore,
-                          examScore,
-                          classId,
-                          studentName,
-                          subjectName,
-                          className,
-                          gradeName,
-                          gradeId,
-                          staffName,
-                        ],
-                        (error, result) => {
-                          if (error) {
-                            console.log(error);
-                            res
-                              .status(500)
-                              .json({ error: "Internal Server Error" });
-                          } else {
-                            console.log(
-                              "Data inserted successfully",
-                              subjectName
-                            );
-                            //   res.status(200).json({ message: "Data inserted successfully" }); // Send a success response
-                          }
-                        }
-                      );
+              if (checkResult[0].count > 0) {
+
+              } else {
+                const sqlgetGrade =
+                  "SELECT * FROM Grades WHERE MinGrade <= ? AND MaxGrade >= ? AND Deleted = 'No'";
+                db.query(
+                  sqlgetGrade,
+                  [parseFloat(totalScore), parseFloat(totalScore)],
+                  (error, [rows]) => {
+                    if (error) {
+                      console.log(error);
+                      hasError = true;
                     } else {
-                      res.status(400).json({
-                        error:
-                          "Mark not added because no grade found matching the marks. Kindly check the marks and the grading system",
-                      });
+                      console.log("running else", rows);
+                      if (rows) {
+                        gradeId = rows.id;
+                        gradeName = rows.GradeName;
+                        console.log("gradeId", gradeId, gradeName);
+                        const sqlInsert =
+                          "INSERT INTO AttendanceTable (StudentID, SubjectID, StaffID, Semester, AcademicYear, TotalScore, ClassScore, ExamScore, ClassID, StudentName, SubjectName, ClassName, GradeName, GradeID, StaffName ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                        db.query(
+                          sqlInsert,
+                          [
+                            studentId,
+                            subjectId,
+                            staffId,
+                            semester,
+                            year,
+                            totalScore,
+                            classCore,
+                            examsCore,
+                            classId,
+                            studentName,
+                            subjectName,
+                            className,
+                            gradeName,
+                            gradeId,
+                            staffName,
+                          ],
+                          (error, result) => {
+                            if (error) {
+                              console.log(error);
+                              hasError = true;
+                            } else {
+                              console.log(
+                                "Data inserted successfully",
+                                subjectName
+                              );
+                            }
+                            // If it's the last iteration, send the response
+                            if (index === array.length - 1) {
+                              sendResponse();
+                            }
+                          }
+                        );
+                      } else {
+                        hasError = true;
+                      }
                     }
                   }
-                }
-              );
+                );
+              }
             }
           }
+        );
+      });
+    
+      // Function to send the response
+      const sendResponse = () => {
+        if (hasError) {
+          res.status(500).json({ error: "Internal Server Error or attendance already exist" });
+        } else {
+          res.status(200).json({ message: "Data inserted/updated successfully" });
         }
-      );
+      };
     });
+
 
     app.post("/api/addSubject", (req, res) => {
       console.log("REQ BODY", req.body);
@@ -1123,46 +1301,49 @@ db.getConnection((err, connection) => {
       const classId = req.query.classId;
       const semester = req.query.semester;
       const academicYear = req.query.year;
-
+    
       // Step 1: Query the database to get distinct subject names
       db.query(
-        "SELECT DISTINCT SubjectName FROM StudentGrades WHERE ClassID = ? AND Semester = ? AND AcademicYear = ?",
+        "SELECT DISTINCT SubjectName FROM StudentGrades WHERE ClassID = ? AND Semester = ? AND AcademicYear = ? AND Deleted='No'",
         [classId, semester, academicYear],
         (subjectError, subjectResults) => {
           if (subjectError) {
             console.log(subjectError);
+            res.status(500).json({ error: "Internal Server Error" });
           } else {
-            const subjects = subjectResults.map(
-              (subject) => subject.SubjectName
-            );
-
+            const subjects = subjectResults.map((subject) => subject.SubjectName);
+    
             // Step 2: Construct the dynamic SQL query to pivot scores
             const subjectColumns = subjects
               .map(
                 (subject) =>
-                  `MAX(CASE WHEN SubjectName = '${subject}' THEN TotalScore ELSE NULL END) AS ${subject}`
+                  `MAX(CASE WHEN SubjectName = ? THEN TotalScore ELSE NULL END) AS ${subject}`
               )
               .join(", ");
-
+    
             const dynamicSQL = `
-                    SELECT 
-                    StudentID, StudentName,  ${subjectColumns},
-                    SUM(TotalScore) AS total,
-                    RANK() OVER (ORDER BY SUM(TotalScore) DESC) AS position
-                    FROM StudentGrades
-                    WHERE ClassID = ${classId} AND Semester = ${semester} AND AcademicYear = ${academicYear}
-                    GROUP BY StudentName
-                    ORDER BY total DESC;
-                `;
-
-            // Now you can execute the dynamic SQL query
-            db.query(dynamicSQL, (error, results) => {
+                        SELECT 
+                        StudentID, StudentName, ${subjectColumns},
+                        SUM(TotalScore) AS total,
+                        RANK() OVER (ORDER BY SUM(TotalScore) DESC) AS position
+                        FROM StudentGrades
+                        WHERE ClassID = ? AND Semester = ? AND AcademicYear = ? AND Deleted='No'
+                        GROUP BY StudentID
+                        ORDER BY total DESC;
+                    `;
+    
+            // Prepare an array of parameters for the dynamic SQL query
+            const queryParams = [...subjects, classId, semester, academicYear];
+    
+            // Now you can execute the dynamic SQL query with parameterized values
+            db.query(dynamicSQL, queryParams, (error, results) => {
               if (error) {
                 console.log(error);
+                res.status(500).json({ error: "Internal Server Error" });
               } else {
                 // console.log(results);
                 res.send(results);
-
+    
                 // Handle and return the results as needed
               }
             });
@@ -1170,12 +1351,12 @@ db.getConnection((err, connection) => {
         }
       );
     });
+    
 
     app.get("/api/getClassStudent/:classId", (req, res) => {
       const { classId } = req.params;
       console.log("classId", classId);
-      const sqlGet =
-        `SELECT studentDetails.*, ParentGuardianDetails.ContactNumber AS Contact
+      const sqlGet = `SELECT studentDetails.*, ParentGuardianDetails.ContactNumber AS Contact
         FROM studentDetails
         LEFT JOIN ParentGuardianDetails ON studentDetails.ParentID = ParentGuardianDetails.id
         WHERE studentDetails.ClassID = ? AND studentDetails.Deleted = 'No';`;
@@ -1520,9 +1701,10 @@ db.getConnection((err, connection) => {
           // res.status(200).json({ result, message: "password updated successfully" }); // Send a success response
           res.send(result);
           // console.log("result", result);
-        }else{
-          res.status(200).json({ error, message: "password updated successfully" }); // Send a success response
-
+        } else {
+          res
+            .status(200)
+            .json({ error, message: "password updated successfully" }); // Send a success response
         }
       });
     });
@@ -1574,13 +1756,13 @@ db.getConnection((err, connection) => {
         "SELECT * FROM Payments WHERE PaymentDate BETWEEN ? AND ? AND Deleted = 'No' ORDER BY id DESC";
       db.query(sqlGet, [startDate, endDate], (error, result) => {
         if (error) {
-          console.log('error', error)
-          res.status(200).json({ error, message: "password updated successfully" }); // Send a success response
-
-        }else{
+          console.log("error", error);
+          res
+            .status(200)
+            .json({ error, message: "password updated successfully" }); // Send a success response
+        } else {
           res.send(result);
-          console.log('result', result)
-
+          console.log("result", result);
         }
       });
     });

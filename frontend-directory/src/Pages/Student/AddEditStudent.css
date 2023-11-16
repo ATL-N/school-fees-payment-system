@@ -34,7 +34,7 @@ body {
 .form-without-button-div{
   grid-area: withoutButtons;
   height: max-content;
-  overflow-y: auto;
+  overflow: auto;
 }
 
 .form-without-button-div-div{

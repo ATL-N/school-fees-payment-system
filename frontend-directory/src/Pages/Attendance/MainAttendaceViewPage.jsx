@@ -2,26 +2,24 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { SelectSubject } from "./SelectSubject";
-import { EnterMarks } from "./EnterMarks";
-import { StateContext } from "../../../Components/utils/Context";
+import { SelectClass } from "./SelectClass";
+import { StateContext } from "../../Components/utils/Context";
+import { AttendancePage } from "./AttendancePage";
 
-export const MainResultEntryPage = () => {
+export const MainAttendaceViewPage = () => {
   const currentDate = new Date();
   const year = currentDate.getFullYear();
 
   const { showNavBar, setShowNavBar, userDetails, setUserDetails } =
     useContext(StateContext);
   const [isSubjectSelected, setIsSubjectSelected] = useState(false);
+  const [isPrintingPage, setIsPrintingPage] = useState(false);
+
   const initialState = {
-    subjectName: null,
-    subjectId: null,
-    staffName: null,
-    staffId: null,
     className: "",
     classId: null,
     semester: null,
-    year: year,
+    year: year
   };
 
   const [myFormData, setMyFormData] = useState(initialState);
@@ -32,15 +30,13 @@ export const MainResultEntryPage = () => {
   const [staffResults, setStaffResults] = useState([]);
   const [clasResults, setClasResults] = useState([]);
   const [studentResults, setStudentResults] = useState([]);
-  const [studentGradeResults, setStudentGradesResults] = useState([]);
+  const [classGradeResult, setClassGradeResult] = useState([]);
+  const [distinctSubjects, setDistinctSubjects] = useState([]);
   const [uploaded, SetUploaded] = useState(false);
   let teacherResult;
-  let subResult;
   let clasResult;
-  let totalScores;
-  const [scores, setScores] = useState([]);
-  // const [totalScores, setTotalScores] = useState([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [attendance, setAttendance] = useState([]);
+
 
   axios.defaults.withCredentials = true;
   useEffect(() => {
@@ -61,52 +57,6 @@ export const MainResultEntryPage = () => {
     console.log("running userdetails useeffect done");
   }, []);
 
-  const handleSCoreChange = (studentId, studentName, scoreType, value) => {
-    console.log(scoreType)
-    setScores((prevScores)=>({
-      ...prevScores,
-      [studentId]: {
-        ...prevScores[studentId],
-        [scoreType]: value,
-        'studentName': studentName
-      }, 
-      
-    }));
-
-     if (scoreType === "examsCore") {
-      // Calculate the total score here based on the exam score
-      const examScore = parseFloat(value);
-      let classCore = scores[studentId]?.classCore ? parseFloat(scores[studentId]?.classCore) : 0
-      const totalScore = examScore + classCore;
-      setScores((prevScores)=>({
-        ...prevScores,
-        [studentId]: {
-          ...prevScores[studentId],
-          ['totalScore']: totalScore,
-        }
-      }))
-
-    } else if (scoreType === "classCore") {
-      // Calculate the total score here based on the exam score
-      const clasScore = parseFloat(value);
-      let examScore = scores[studentId]?.examsCore ? parseFloat(scores[studentId]?.examsCore) : 0
-      const totalScore = clasScore + examScore;
-
-      setScores((prevScores)=>({
-        ...prevScores,
-        [studentId]: {
-          ...prevScores[studentId],
-          ['totalScore']: totalScore,
-        }
-      }))
-    }
-
-    console.log('scores', studentId, scores[studentId], myFormData)
-
-
-  };
-
-
   const updateField = (field, value) => {
     setMyFormData({
       ...myFormData,
@@ -121,32 +71,40 @@ export const MainResultEntryPage = () => {
     );
     if (confirmReset) {
       setMyFormData(initialState);
+      // window.location.reload();
     }
   };
 
-  const loadStudentGrade = async () => {
-    const classAccessmentResponse = await axios.get(
-      `http://localhost:5050/api/getClassAccessment?classId=${myFormData.classId}&semester=${myFormData.semester}&year=${myFormData.year}&subjectId=${myFormData.subjectId}`
-    );
-    setStudentGradesResults(classAccessmentResponse.data);
-    console.log(
-      "classAccessmentResponse:",
-      classAccessmentResponse.data,
-      myFormData.classId
-    );
+  const loadClassResult = async () => {
+    try {
+      const classAccessmentResponse = await axios.get(
+        `http://localhost:5050/api/getAllClassAccessment?classId=${myFormData.classId}&semester=${myFormData.semester}&year=${myFormData.year}`
+      );
+
+      setClassGradeResult(classAccessmentResponse.data);
+      console.log(
+        "classAccessmentResponsessss:",
+        classAccessmentResponse.data,
+        myFormData.classId
+      );
+      console.log("setIsPrintingPage", isPrintingPage);
+
+      // Extract distinct subjects from the response data
+      if (classAccessmentResponse.data.length > 0) {
+        const subjects = Object.keys(classAccessmentResponse.data[0]).filter(
+          (key) =>
+            key !== "StudentName" && key !== "total" && key !== "position"
+        );
+        setDistinctSubjects(subjects);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const loadData = async () => {
     try {
       console.log("laoding data");
-      const subjectResponse = await axios.get(
-        `http://localhost:5050/api/getSubjects`
-      );
-      if (subjectResponse.data.length > 0) {
-        subResult = subjectResponse.data;
-        console.log("subjectResponse", subjectResponse);
-        setSubjectResults(subjectResponse.data);
-      }
 
       const clasResponse = await axios.get(
         `http://localhost:5050/api/getClasses`
@@ -175,7 +133,7 @@ export const MainResultEntryPage = () => {
           myFormData.classId
         );
 
-        loadStudentGrade();
+        loadClassResult();
       }
     } catch (error) {
       console.error("Error loading data:", error);
@@ -223,7 +181,7 @@ export const MainResultEntryPage = () => {
   };
 
   const handleClassChange = (e, clasResult) => {
-    const { name, value, files } = e.target;
+    const { name, value } = e.target;
 
     if (name === "classId") {
       console.log("running subjectId");
@@ -241,6 +199,25 @@ export const MainResultEntryPage = () => {
 
     console.log(myFormData);
   };
+
+  const handleAttendanceChange = (studentId, studentName, scoreType, value) => {
+    console.log(scoreType)
+    setAttendance((prevScores)=>({
+      ...prevScores,
+      [studentId]: {
+        ...prevScores[studentId],
+        [scoreType]: value,
+        'studentName': studentName
+      }, 
+      
+    }));
+
+    console.log('attendance', studentId, attendance[studentId], myFormData)
+
+
+  };
+
+
 
   const handleInputChange = (e, result) => {
     const { name, value, files } = e.target;
@@ -271,6 +248,24 @@ export const MainResultEntryPage = () => {
         staffId: parseInt(value),
         staffName: staffName,
       });
+    } else if (name === "examScore") {
+      // Calculate the total score here based on the exam score
+      const examScore = parseFloat(value);
+      const totalScore = examScore + parseFloat(myFormData.classCore);
+      setMyFormData({
+        ...myFormData,
+        examScore: examScore,
+        totalScore: totalScore,
+      });
+    } else if (name === "classCore") {
+      // Calculate the total score here based on the exam score
+      const clasScore = parseFloat(value);
+      const totalScore = clasScore + parseFloat(myFormData.examScore);
+      setMyFormData({
+        ...myFormData,
+        classCore: clasScore,
+        totalScore: totalScore,
+      });
     } else {
       updateField(name, value);
     }
@@ -280,6 +275,13 @@ export const MainResultEntryPage = () => {
 
   const handleBack = () => {
     setIsSubjectSelected(false);
+    // setIsPrintingPage(true)
+  };
+
+  const handlePrint = () => {
+    // setIsSubjectSelected(false)
+    setIsPrintingPage(true);
+    console.log("isPrintingPage", isPrintingPage);
   };
 
   const goback = () => {
@@ -302,40 +304,31 @@ export const MainResultEntryPage = () => {
     if (myFormData.year > parseInt(year) || myFormData.year < 2000) {
       toast.error("The year should be between 2000 and the current year.");
     } else {
-      const confirmedFeeAdd = window.confirm(
-        `Would you like to submit results? This action is irrevesible`
-      );
-      if (confirmedFeeAdd) {
-      const apiUrl = "http://localhost:5050/api/addStudentGrade";
+      const apiUrl = "http://localhost:5050/api/takeAttendance";
 
       axios
         .post(apiUrl, {
-          subjectName: myFormData.subjectName,
-          subjectId: myFormData.subjectId,
-          staffName: myFormData.staffName,
-          staffId: myFormData.staffId,
           className: myFormData.className,
           classId: myFormData.classId,
           semester: myFormData.semester,
-          year: myFormData.year,
-          scores: scores,
+          attendance: attendance,
+          
         })
         .then((response) => {
-          const { message, error } = response.data;
-          if (error){
-            toast.error(error)
-            setTimeout(() => {
-            }, 500);
-          }else {
-            toast.success(message);
-            setTimeout(() => {
-              navigate(-1)
-
-            }, 500);
-          }
+          setMyFormData(initialState);
+          const {message, error} = response.data
+          toast.success(message);
+          setTimeout(() => {
+            navigate(-1);
+            loadClassResult();
+          }, 500);
         })
         .catch((err) => toast.error("error", err.response));
-      }
+
+      SetUploaded(!uploaded);
+
+      console.log("formdata", myFormData);
+
     }
   };
 
@@ -347,7 +340,7 @@ export const MainResultEntryPage = () => {
   return (
     <div>
       {!isSubjectSelected && (
-        <SelectSubject
+        <SelectClass
           setIsSubjectSelected={setIsSubjectSelected}
           myFormData={myFormData}
           handleInputChange={handleInputChange}
@@ -366,7 +359,7 @@ export const MainResultEntryPage = () => {
         />
       )}
       {isSubjectSelected && (
-        <EnterMarks
+        <AttendancePage
           setIsSubjectSelected={setIsSubjectSelected}
           myFormData={myFormData}
           handleInputChange={handleInputChange}
@@ -380,9 +373,11 @@ export const MainResultEntryPage = () => {
           handleBack={handleBack}
           handleStudentChange={handleStudentChange}
           studentResults={studentResults}
-          studentGradeResults={studentGradeResults}
-          handleSCoreChange = {handleSCoreChange}
-          scores = {scores}
+          classGradeResult={classGradeResult}
+          distinctSubjects={distinctSubjects}
+          handlePrint={handlePrint}
+          handleAttendanceChange = {handleAttendanceChange}
+          attendance = {attendance}
         />
       )}
     </div>

@@ -160,6 +160,15 @@ export const AccessmentMainPage = () => {
                 </section>
                 </Link>
 
+                <Link className='widget link-none' to='/takeAttendance'>
+                <section className="">
+                    ATTENDANCE
+                    <div className="payment-history bold-div">
+                    </div>
+                    
+                </section>
+                </Link>
+
             </main>
 
             <footer className="footer">

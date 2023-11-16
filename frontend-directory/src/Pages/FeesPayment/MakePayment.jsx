@@ -93,7 +93,7 @@ export const MakePayment = () => {
         } else {
           const ConfirmedPayment = window.confirm(`complete fees payment`);
           if(ConfirmedPayment){
-          const apiUrl = id ? `http://localhost:5050/api/makePayment` : 'http://localhost:5050/api/makePayment';
+          const apiUrl = `http://localhost:5050/api/makePayment` ;
     
           const formDataToSend = new FormData();
           formDataToSend.append('studentId', makePaymentFormData.studentId);

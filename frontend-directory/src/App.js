@@ -49,6 +49,7 @@ import { PrintEmptyClassListMainPage } from "./Pages/Subject/ViewClassResult/Pri
 import { ChangePassword } from "./Pages/AddStaff/ChangePassword";
 import { ErrorPage } from "./Pages/ErrorPage/ErrorPage";
 import { PrintClassListPdfPage } from "./Pages/Reports/PrintClassListPdfPage";
+import { MainAttendaceViewPage } from "./Pages/Attendance/MainAttendaceViewPage";
 
 function App() {
   return (
@@ -114,6 +115,7 @@ function App() {
           <Route path="/printPayment/:id" element={<PaymentReceiptPage />} />
           <Route path="/addClassFees" element={<FeesAdding />} />
           <Route path="/changeStaffPassword/:id" element={<ChangePassword />} />
+          <Route path="/takeAttendance" element={<MainAttendaceViewPage />} />
 
           <Route path="*" element={<ErrorPage />} />
         </Routes>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-export const EnterMarks = (props) => {
+export const AttendancePage = (props) => {
   return (
     <div className="form-container">
       <div className="group-title-div form-info">
@@ -16,7 +16,10 @@ export const EnterMarks = (props) => {
           onSubmit={props.handleSubmit}
           className="input-area-div div3"
         >
-          <div className="form-without-button-div" style={{maxHeight:'45vh'}}>
+          <div
+            className="form-without-button-div"
+            style={{ maxHeight: "45vh" }}
+          >
             <div
               className={`custom-dropdown ${
                 props.isSearchBarActive || props.query !== "" ? "open" : ""
@@ -26,9 +29,8 @@ export const EnterMarks = (props) => {
                 <thead>
                   <tr>
                     <th>Student</th>
-                    <th>Class Score</th>
-                    <th>Exams Score</th>
-                    <th>Total Score</th>
+                    <th>Abscent</th>
+                    <th>Present</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -37,43 +39,31 @@ export const EnterMarks = (props) => {
                       <td>{student.StudentName}</td>
                       <td>
                         <input
-                          type="number"
-                          value={props.scores[student.id]?.classCore || ""}
+                          type="radio"
+                          value={'Abscent'}
                           onChange={(e) =>
-                            props.handleSCoreChange(student.id, student.StudentName, 'classCore', e.target.value)
+                            props.handleAttendanceChange(student.id, student.StudentName, 'status', e.target.value)
                           }
-                          className="form-input"
-                          name="classCore"
+                          className="radio-btn"
+                          name={student.id + "attendance"}
                           min={0}
                           max={50}
-
                         />
                       </td>
-                      <td>
-                      <input
-                          type="number"
-                          value={props.scores[student.id]?.examsCore || ""}
-                          onChange={(e) =>
-                            props.handleSCoreChange(student.id, student.StudentName, 'examsCore', e.target.value)
-                          }
-                          className="form-input"
-                          name="examsCore"
-                          min={0}
-                          max={50}
 
-                        />
-                        </td>
                       <td>
-                      <input
-                          type="number"
-                          value={props.scores[student.id]?.totalScore || ""}
-                          className="form-input"
-                          onChange={props.handleInputChange}
+                        <input
+                          type="radio"
+                          value={'Present'}
+                          onChange={(e) =>
+                            props.handleAttendanceChange(student.id, student.StudentName, 'status', e.target.value)
+                          }
+                          className="radio-btn"
+                          name={student.id + "attendance"}
                           min={0}
                           max={50}
-                          readOnly
                         />
-                        </td>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -91,13 +81,12 @@ export const EnterMarks = (props) => {
                   title="clear all fields"
                   className="form-button clear-btn"
                 />
-                {/* <input onClick={props.resetForm} title="clear all fields" className="form-button clear-btn">Reset</input> */}
               </div>
             )}
 
             <input
               type="submit"
-              value="Submit Marks"
+              value="Submit"
               title="upload the product"
               className="form-button nav-button next-btn submit-btn"
             />

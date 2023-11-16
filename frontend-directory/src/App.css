@@ -207,5 +207,8 @@ tbody tr:hover{
   color: white;
 }
 
-
+.radio-btn{
+  height: 20px;
+  width: 20px;
+}
 
