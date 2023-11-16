@@ -44,6 +44,10 @@ app.use(
 );
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.get("/", (req, res) => {
+  res.send("server running on port 5050");
+});
+
 db.getConnection((err, connection) => {
   if (err) {
     console.error("Database connection failed:", err);
@@ -71,9 +75,6 @@ db.getConnection((err, connection) => {
 
     const upload = multer({ storage }); // Create a multer instance
 
-    app.get("/", (req, res) => {
-      res.send("server running on port 5050");
-    });
 
     app.get("/home", (req, res) => {
       if (req.session.userDetails) {
