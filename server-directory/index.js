@@ -19,6 +19,8 @@ const db = mysql.createPool({
   database: "SchoolFeesSystem",
 });
 
+const PORT = process.env.PORT || PORT || 5050;
+
 
 app.use(
   cors({
@@ -1951,6 +1953,6 @@ db.getConnection((err, connection) => {
 });
 
 app.use("/uploads", express.static("uploads"));
-app.listen(5050, () => {
-  console.log("server running on port 5050");
+app.listen(PORT, () => {
+  console.log(`server running on port ${PORT}`);
 });
