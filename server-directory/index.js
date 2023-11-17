@@ -24,7 +24,8 @@ const PORT = process.env.PORT || PORT || 5050;
 
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    // origin: ["http://localhost:3000"],
+    origin: ["https://school-fees-payment-system-frontend.onrender.com/"],
     methods: ["POST", "GET"],
     credentials: true,
   })
