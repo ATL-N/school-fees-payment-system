@@ -33,14 +33,14 @@ import { Link } from 'react-router-dom';
               </tr>
             </thead>
             <tbody>
-              {props.results.map(subject => (
+              {props.results?.map(subject => (
                 <tr key={subject.id}>
                   <td>{subject.id}</td>
-                  <td>{subject.SubjectName}</td>
+                  <td>{subject.subjectname}</td>
                   <td>
                     {/* <Link to={`/viewClassDetails/${encodeURIComponent(subject.id)}`} className='link-remove form-button nav-button next-btn submit-btn'>View</Link> */}
                     <Link to={`/editSubjectDetails/${encodeURIComponent(subject.id)}`} className='link-remove form-button nav-button next-btn submit-btn'>Edit</Link>
-                    <button onClick={() => props.handleDelete(subject.id, subject.SubjectName)} className='link-remove form-button clear-btn'>Delete</button>
+                    <button onClick={() => props.handleDelete(subject.id, subject.subjectname)} className='link-remove form-button clear-btn'>Delete</button>
                   </td>
                 </tr>
               ))}

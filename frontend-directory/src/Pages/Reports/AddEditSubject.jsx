@@ -59,12 +59,8 @@ export const AddEditSubject = () => {
         }
     }
 
-    const resetForm =() => {
-        const confirmReset = window.confirm("Are you sure you want to reset the form?");
-        if (confirmReset){
-            setSubjectFormData(initialState)
-            // window.location.reload();
-        }
+    const handleBack =() => {
+        navigate(-1)
     }
 
     const loadData = async () => {
@@ -92,20 +88,29 @@ export const AddEditSubject = () => {
             .post(apiUrl, {
               subjectName: subjectFormData.subjectName,
             })
-            .then(() => {
+            .then((response) => {
+              if (response.data.message) {
+                toast.success(response.data?.message);
+                setTimeout(() => {
+                  navigate(-1);
+                }, 500);
               setSubjectFormData(initialState);
+              } else if (response.data.error) {
+                toast.error(response.data.error);
+                setTimeout(() => {
+                }, 500);
+              } else {
+                toast.error("Internal Error");
+                setTimeout(() => {
+                }, 500);
+              }
             })
             .catch((err)=>toast.error(err.response));
-    
-          const successMessage = id ? 'Data updated successfully' : 'Data saved successfully';
-          toast.success(successMessage);
-          setTimeout(() => {
-            // navigate(-1);
-          }, 500);
         }
       };
 
     useEffect(()=>{
+      console.log('id:', id)
       if(id){
         console.log('running load data')
         loadData()
@@ -118,7 +123,7 @@ export const AddEditSubject = () => {
         subjectFormData = {subjectFormData}
         handleInputChange = {handleInputChange}
         handleSubmit = {handleSubmit}
-        resetForm = {resetForm}
+        handleBack = {handleBack}
         teachers = {teachers}
         setSubjectFormData = {setSubjectFormData}
         id = {id}

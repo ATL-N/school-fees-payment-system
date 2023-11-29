@@ -71,7 +71,7 @@ export const MakePayment = () => {
       const handleInputChange = (e) => {
         const {name, value, files} = e.target;
         if (name === "amountReceived") {
-            const balance = parseFloat(student.AmountOwed);
+            const balance = parseFloat(student.amountowed);
             const received = parseFloat(value); // Convert to a float to handle decimal values
             const calculatedBalance = balance - received;
         
@@ -142,22 +142,20 @@ export const MakePayment = () => {
         navigate(-1)
       }
 
-
-
     const loadData = async () => {
         try {
           const response = await axios.get(`http://localhost:5050/api/getStudent/${id}`);
           if (response.data.length > 0) {
             const selectedStudent = response.data[0];
             setStudent(response.data[0]);
-            setImageUrl(`http://localhost:5050/uploads/${selectedStudent.Image}`);
+            setImageUrl(selectedStudent.image);
 
             setMakePaymentFormData({
                 ...makePaymentFormData,
-                studentName: selectedStudent.StudentName,
-                studentClass: selectedStudent.ClassName,
-                amountOwed: selectedStudent.AmountOwed,
-                newBalance: makePaymentFormData.newBalance? makePaymentFormData.newBalance : selectedStudent.AmountOwed,
+                studentName: selectedStudent.studentname,
+                studentClass: selectedStudent.classname,
+                amountOwed: selectedStudent.amountowed,
+                newBalance: makePaymentFormData.newBalance? makePaymentFormData.newBalance : selectedStudent.amountowed,
               })
 
             console.log("response data", response.data)

@@ -5,8 +5,10 @@ import axios from "axios";
 import { StateContext } from "../../Components/utils/Context";
 
 export const Dashboard = () => {
-  const { showNavBar, setShowNavBar, userDetails, setUserDetails } = useContext(StateContext);
+  const { showNavBar, setShowNavBar, userDetails, setUserDetails, currentTerm, setCurrentTerm } = useContext(StateContext);
   const [students, setStudents] = useState([]);
+  const [femaleStudents, setFemaleStudents] = useState([]);
+  const [maleStudents, setMaleStudents] = useState([]);
   const [studentsOwing, setStudentsOwing] = useState([]);
   const [newStudents, setNewStudents] = useState([]);
   const [staff, setStaff] = useState([]);
@@ -29,8 +31,12 @@ export const Dashboard = () => {
       .then((res) => {
         if (res.data.userDetails == "" || res.data.userDetails == null) {
           navigate("/loginPage");
+          console.log("running userdetails useeffect if");
+
           
         } else {
+          console.log("running userdetails useeffect else");
+
           setUserDetails(res.data.userDetails);
         }
       })
@@ -44,12 +50,19 @@ export const Dashboard = () => {
 
   const loadData = async () => {
     try {
+      const currentSem = await axios.get(
+        "http://localhost:5050/api/getSemester"
+      );
+      setCurrentTerm(currentSem.data[0]);
+      console.log("currentSem:", currentSem.data[0].semestername);
+
+  
       const response = await axios.get(
         "http://localhost:5050/api/getPaymentsForDay"
       );
       setPayments(response.data);
       // console.log("response:", response.data);
-      const amounts = response.data.map((payment) => payment.AmountPaid);
+      const amounts = response.data.map((payment) => parseFloat(payment.amountpaid));
       sum = amounts.reduce(
         (accumulator, currentValue) => accumulator + currentValue,
         0
@@ -68,7 +81,7 @@ export const Dashboard = () => {
       setPaymentsForWeek(paymentForWeekresponse.data);
       // console.log("paymentForWeekresponse:", paymentForWeekresponse.data);
       const amountsForWeek = paymentForWeekresponse.data.map(
-        (payment) => payment.AmountPaid
+        (payment) => parseFloat(payment.amountpaid)
       );
       sum = amountsForWeek.reduce(
         (accumulator, currentValue) => accumulator + currentValue,
@@ -92,7 +105,10 @@ export const Dashboard = () => {
         "http://localhost:5050/api/getStudents"
       );
       setStudents(Studentresponse.data);
-      // console.log("Studentresponse:", Studentresponse.data);
+      console.log("Studentresponse:", Studentresponse.data);
+      setFemaleStudents(Studentresponse.data.filter((student) => student.gender === 'Female').length);
+      setMaleStudents(Studentresponse.data.filter((student) => student.gender === 'Male').length);
+
 
       const newStudentresponse = await axios.get(
         "http://localhost:5050/api/getNewStudentsForDay"
@@ -106,7 +122,7 @@ export const Dashboard = () => {
       setStudentsOwing(studentOwingresponse.data);
       // console.log("studentOwingresponse:", studentOwingresponse.data);
       const amountOwing = studentOwingresponse.data.map(
-        (amountOwed) => amountOwed.AmountOwed
+        (amountOwed) => parseFloat(amountOwed.amountowed)
       );
       sum = amountOwing.reduce(
         (accumulator, currentValue) => accumulator + currentValue,
@@ -143,8 +159,12 @@ export const Dashboard = () => {
         <Link className="link-none widget" to="/studentList">
           <section className="">
           <div className="profile bold-div link">Students</div>
-            NUMBER OF Students
+            total NUMBER OF Students
             <div className="student-info bold-div">{students?.length}</div>
+            NUMBER OF females
+            <div className="student-info bold-div">{femaleStudents}</div>
+            NUMBER OF males
+            <div className="student-info bold-div">{maleStudents}</div>
             NUMBER OF new Students
             <div className="student-info bold-div">{newStudents?.length}</div>
           </section>
@@ -192,12 +212,22 @@ export const Dashboard = () => {
           </section>
         </Link>
 
+        <Link className="link-none widget" to="/addSemester">
+          <section className="">
+          <div className="profile bold-div link">Add Term</div>
+            Current Term: 
+            <div className="payment-history bold-div">{currentTerm?.semestername}</div>
+          </section>
+        </Link>
+
         <Link className="link-none widget" to="/addClassFees">
           <section className="">
           <div className="profile bold-div link">Add fees</div>
             Add new fees for New term
           </section>
         </Link>
+
+
 
         {/* Add more widgets as needed */}
       </main>

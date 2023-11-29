@@ -46,7 +46,7 @@ export const PrintStudentResult = () => {
         `http://localhost:5050/api/getStudent/${studentId}`
       );
 
-      setStudentName(stuName.data[0].StudentName);
+      setStudentName(stuName.data[0].studentname);
       console.log("stuNamessss:", stuName.data);
       console.log("setIsPrintingPage");
     } catch (error) {

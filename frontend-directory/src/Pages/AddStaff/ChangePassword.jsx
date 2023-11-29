@@ -33,8 +33,8 @@ export const ChangePassword = () => {
             setUserDetails(res.data.userDetails);
             setPasswordFormData({
                 ...passwordFormData,
-                userName: res.data.userDetails.StaffName,
-                email: res.data.userDetails.Email,
+                userName: res.data.userDetails.staffname,
+                email: res.data.userDetails.email,
               });
           }
         })

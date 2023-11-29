@@ -24,7 +24,6 @@ export const FeesAddingForm = (props) => {
         ))   
         // console.log(props.setClassFormData, props.setClassFormData)   
     }
-  
   }, [props.classResults])
 
     const {register, handleSubmit, formState: {errors} } = useForm({
@@ -51,43 +50,20 @@ export const FeesAddingForm = (props) => {
             <select defaultValue="" name="classid" id="classid" className='form-input' placeholder='select student Class' onChange={(e) => props.handleInputChange(e, props.classResults)} value={props.feesAddingFormData.classId}>
               <option  value="" disabled>select Class</option>
               {props.classResults?.map((classes) => (
-                <option key={classes.id} value={classes.id}>{classes.ClassName}</option>
+                <option key={classes.id} value={classes.id}>{classes.classname}</option>
               ))}
 
             </select>
           </div>
 
 
-          <div className='form-input-div'>Date Range(start): 
-            <input type="date" 
-              value={props.feesAddingFormData.dateStart} 
-              name='dateStart' 
-              onChange={props.handleInputChange} 
-              placeholder="Enter the tersm's fess for the class here..." 
-              className='form-input'/>
+          <div className='form-input-div'>TERM: 
+            <input type="text" 
+              value={props.feesAddingFormData.semestername} 
+              className='form-input'
+              readOnly/>
           </div>
 
-          <div className='form-input-div'>Date Range(End): 
-            <input type="date" 
-              value={props.feesAddingFormData.dateEnd} 
-              name='dateEnd' 
-              onChange={props.handleInputChange} 
-              placeholder="Enter the tersm's fess for the class here..." 
-              className='form-input'/>
-          </div>
-
-          <div className='form-input-div'>select Term: 
-              <select required defaultValue={''} name="semester" id="semester" className='form-input' 
-              onChange={(e) => props.handleInputChange(e, props.clasResults)} 
-              value={props.feesAddingFormData.semester}
-              >
-                <option value="" disabled >select class from system</option>
-                <option value="1" >First term</option>
-                <option value="2" >Second term</option>
-                <option value="3" >Third term</option>
-                           
-              </select>
-            </div>
 
             <div className='form-input-div'>Fees type: 
             <select name="feesType" id="feesType" className='form-input active' 

@@ -15,10 +15,10 @@ export const AddEditClassForm = (props) => {
       props.classResults?.map((classes)=>(
         props.setClassFormData({
           ...props.classFormData,
-          className: classes.ClassName,
-          classTeacher: classes.ClassTeacher,
-          feesForTheTime: classes.FeesForTheTime,
-          classSize: classes.ClassSize,
+          className: classes.classname,
+          classTeacher: classes.classteacher,
+          feesForTheTime: classes.feesforthetime,
+          classSize: classes.classsize,
         })
   
         ))   
@@ -59,7 +59,7 @@ export const AddEditClassForm = (props) => {
             <select defaultValue='' name="classTeacher" id="classTeacher" className='form-input' placeholder='select gender' onChange={props.handleInputChange} value={props.classFormData.classTeacher}>
               <option value="" disabled selected>select class Teacher</option>
               {props.teachers?.map((teacher) => (
-                <option key={teacher.id} value={teacher.StaffName}>{teacher.StaffName}</option>
+                <option key={teacher.id} value={teacher.staffname}>{teacher.staffname}</option>
 
               ))}
             </select>

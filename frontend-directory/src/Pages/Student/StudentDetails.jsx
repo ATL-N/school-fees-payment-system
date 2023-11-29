@@ -61,7 +61,7 @@ export const StudentDetails = () => {
             const selectedStudent = studentResponse.data[0];
             setStudent(studentResponse.data[0]);
             const studentId = selectedStudent.id;
-            setImageUrl(`http://localhost:5050/uploads/${selectedStudent.Image}`);
+            setImageUrl(`http://localhost:5050/uploads/${selectedStudent.image}`);
             console.log('studentId', studentId)
 
             const parentMappingResponse = await axios.get(`http://localhost:5050/api/getStudentParentsMapping/${studentId}`);
@@ -74,11 +74,8 @@ export const StudentDetails = () => {
                     const selectedParent1 = parentMappingResponse.data[0];
                     const selectedParent2 = parentMappingResponse.data[1];
 
-                    // setParent1(parentMappingResponse.data[0]);
-                    // setParent2(parentMappingResponse.data[1]);
-
-                    const parent1Id = selectedParent1.ParentId;
-                    const parent2Id = selectedParent2.ParentId;
+                    const parent1Id = selectedParent1.parentid;
+                    const parent2Id = selectedParent2.parentid;
 
 
 
@@ -100,7 +97,8 @@ export const StudentDetails = () => {
                     console.log('running else if running')
                     setParent1Mapping(parentMappingResponse.data[0])
                     const selectedParent1 = parentMappingResponse.data[0];
-                    const parent1Id = selectedParent1.ParentId;
+                    const parent1Id = selectedParent1.parentid;
+                    console.log('running else if running', parent1Id)
                     const parentDetails1 = await axios.get(`http://localhost:5050/api/getParents/${parent1Id}`);
                     if (parentDetails1.data.length > 0) {
                         console.log('running running3', parentDetails1.data.length)

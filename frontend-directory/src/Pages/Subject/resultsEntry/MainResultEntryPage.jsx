@@ -10,18 +10,21 @@ export const MainResultEntryPage = () => {
   const currentDate = new Date();
   const year = currentDate.getFullYear();
 
-  const { showNavBar, setShowNavBar, userDetails, setUserDetails } =
-    useContext(StateContext);
+  const { showNavBar, setShowNavBar, userDetails, setUserDetails, currentTerm, setCurrentTerm } = useContext(StateContext);
   const [isSubjectSelected, setIsSubjectSelected] = useState(false);
   const initialState = {
     subjectName: null,
     subjectId: null,
     staffName: null,
     staffId: null,
+    studentName: null,
+    studentId: null,
     className: "",
     classId: null,
-    semester: null,
+    gradeId: null,
+    gradeName: null,
     year: year,
+    semester: currentTerm?.semestername,
   };
 
   const [myFormData, setMyFormData] = useState(initialState);
@@ -106,7 +109,6 @@ export const MainResultEntryPage = () => {
 
   };
 
-
   const updateField = (field, value) => {
     setMyFormData({
       ...myFormData,
@@ -138,6 +140,17 @@ export const MainResultEntryPage = () => {
 
   const loadData = async () => {
     try {
+
+      const currentSem = await axios.get(
+        "http://localhost:5050/api/getSemester"
+      );
+      setCurrentTerm(currentSem.data[0]);
+      console.log("currentSem:", currentSem.data[0].semestername);
+      setMyFormData({
+        ...myFormData,
+        semester: currentSem.data[0].semestername,
+      });
+
       console.log("laoding data");
       const subjectResponse = await axios.get(
         `http://localhost:5050/api/getSubjects`
@@ -209,7 +222,7 @@ export const MainResultEntryPage = () => {
       const subStaff = subResult.find(
         (subject) => subject.id === parseInt(value)
       );
-      const subjectName = subStaff ? subStaff.SubjectName : null;
+      const subjectName = subStaff ? subStaff.subjectname : null;
       setMyFormData({
         ...myFormData,
         subjectId: parseInt(value),
@@ -229,7 +242,7 @@ export const MainResultEntryPage = () => {
       console.log("running subjectId");
       const clasStaff = clasResult.find((clas) => clas.id === parseInt(value));
       console.log("clasStaff", clasStaff);
-      const className = clasStaff ? clasStaff.ClassName : null;
+      const className = clasStaff ? clasStaff.classname : null;
       setMyFormData({
         ...myFormData,
         classId: parseInt(value),
@@ -254,7 +267,7 @@ export const MainResultEntryPage = () => {
       const selectedStaff = result.find(
         (staff) => staff.id === parseInt(value)
       );
-      const staffName = selectedStaff ? selectedStaff.StaffName : null;
+      const staffName = selectedStaff ? selectedStaff.staffname : null;
       setMyFormData({
         ...myFormData,
         staffId: parseInt(value),
@@ -265,7 +278,7 @@ export const MainResultEntryPage = () => {
       const selectedStaff = result.find(
         (staff) => staff.id === parseInt(value)
       );
-      const staffName = selectedStaff ? selectedStaff.StaffName : null;
+      const staffName = selectedStaff ? selectedStaff.staffname : null;
       setMyFormData({
         ...myFormData,
         staffId: parseInt(value),
@@ -314,8 +327,12 @@ export const MainResultEntryPage = () => {
           subjectId: myFormData.subjectId,
           staffName: myFormData.staffName,
           staffId: myFormData.staffId,
+          studentName: myFormData.studentName,
+          studentId: myFormData.studentId,
           className: myFormData.className,
           classId: myFormData.classId,
+          gradeId: myFormData.gradeId,
+          gradeName: myFormData.gradeName,
           semester: myFormData.semester,
           year: myFormData.year,
           scores: scores,
@@ -330,7 +347,7 @@ export const MainResultEntryPage = () => {
             toast.success(message);
             setTimeout(() => {
               navigate(-1)
-
+              setScores('')
             }, 500);
           }
         })
@@ -342,6 +359,10 @@ export const MainResultEntryPage = () => {
   useEffect(() => {
     console.log("running load data");
     loadData();
+    setMyFormData({
+      ...myFormData,
+      semester: currentTerm.semestername,
+    });
   }, [isSubjectSelected]);
 
   return (
@@ -363,6 +384,7 @@ export const MainResultEntryPage = () => {
           handleClassChange={handleClassChange}
           handleSubmit1={handleSubmit1}
           goback={goback}
+          // currentTerm = {currentTerm}
         />
       )}
       {isSubjectSelected && (

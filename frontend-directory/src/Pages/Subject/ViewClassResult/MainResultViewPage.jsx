@@ -16,21 +16,10 @@ export const MainResultViewPage = () => {
   const [isPrintingPage, setIsPrintingPage] = useState(false);
 
   const initialState = {
-    subjectName: null,
-    subjectId: null,
-    staffName: null,
-    staffId: null,
-    studentName: null,
-    studentId: null,
     className: "",
     classId: null,
-    gradeId: null,
-    gradeName: null,
     semester: null,
     year: year,
-    classCore: 0,
-    examScore: 0,
-    totalScore: null,
   };
 
   const [myFormData, setMyFormData] = useState(initialState);
@@ -43,7 +32,9 @@ export const MainResultViewPage = () => {
   const [studentResults, setStudentResults] = useState([]);
   const [classGradeResult, setClassGradeResult] = useState([]);
   const [distinctSubjects, setDistinctSubjects] = useState([]);
-  const [uploaded, SetUploaded] = useState(false);
+  const [uploaded, setUploaded] = useState(false);
+  const [isChecked, setIsChecked] = useState();
+  const [checkList, setCheckList] = useState([]);
   let teacherResult;
   let clasResult;
 
@@ -85,12 +76,13 @@ export const MainResultViewPage = () => {
   };
 
   const loadClassResult = async () => {
+    console.log('started running loadclassresult')
     try {
       const classAccessmentResponse = await axios.get(
-        `http://localhost:5050/api/getAllClassAccessment?classId=${myFormData.classId}&semester=${myFormData.semester}&year=${myFormData.year}`
+        `http://localhost:5050/api/getAllClassAssessment?classId=${myFormData.classId}&semester=${myFormData.semester}&year=${myFormData.year}`
       );
 
-      setClassGradeResult(classAccessmentResponse.data);
+      setClassGradeResult(classAccessmentResponse?.data);
       console.log(
         "classAccessmentResponsessss:",
         classAccessmentResponse.data,
@@ -102,7 +94,7 @@ export const MainResultViewPage = () => {
       if (classAccessmentResponse.data.length > 0) {
         const subjects = Object.keys(classAccessmentResponse.data[0]).filter(
           (key) =>
-            key !== "StudentName" && key !== "total" && key !== "position"
+            key !== "studentname" && key !== "total" && key !== "position" && key !== "studentid"
         );
         setDistinctSubjects(subjects);
       }
@@ -288,72 +280,20 @@ export const MainResultViewPage = () => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleCheck = (studentId, classId, semester, year, total, position) => {
+    setIsChecked(!isChecked)
+    if(isChecked){
+      console.log('scoreType')
+    setCheckList((prevScores)=>({
+      ...prevScores,
+      [studentId]: `${encodeURIComponent(studentId)}/${encodeURIComponent(classId)}/${encodeURIComponent(semester)}/${encodeURIComponent(year)}/${encodeURIComponent(total)}/${encodeURIComponent(position)}`
+      
+    }));
 
-    if (myFormData.year > parseInt(year) || myFormData.year < 2000) {
-      toast.error("The year should be between 2000 and the current year.");
-    } else {
-      const apiUrl = "http://localhost:5050/api/addStudentGrade";
-
-      axios
-        .post(apiUrl, {
-          subjectName: myFormData.subjectName,
-          subjectId: myFormData.subjectId,
-          staffName: myFormData.staffName,
-          staffId: myFormData.staffId,
-          studentName: myFormData.studentName,
-          studentId: myFormData.studentId,
-          className: myFormData.className,
-          classId: myFormData.classId,
-          gradeId: myFormData.gradeId,
-          gradeName: myFormData.gradeName,
-          semester: myFormData.semester,
-          year: myFormData.year,
-          classCore: myFormData.classCore,
-          examScore: myFormData.examScore,
-          totalScore: myFormData.totalScore,
-        })
-        .then(() => {
-          setMyFormData(initialState);
-        })
-        .catch((err) => toast.error("error", err.response));
-
-      setMyFormData({
-        ...myFormData,
-        studentName: "",
-        studentId: null,
-        classCore: 0,
-        examScore: 0,
-        totalScore: null,
-      });
-
-      SetUploaded(!uploaded);
-
-      console.log("formdata", myFormData);
-
-      const successMessage = id
-        ? "Data updated successfully"
-        : "Data saved successfully";
-      toast.success(successMessage);
-      setTimeout(() => {
-        // navigate(-1);
-        loadClassResult();
-      }, 500);
+    console.log('attendance', studentId, checkList)
     }
+    
   };
-  useEffect(() => {
-    setMyFormData({
-      ...myFormData,
-      studentName: null,
-      studentId: null,
-      classCore: 0,
-      examScore: 0,
-      totalScore: 0,
-    });
-    console.log("uploaded", uploaded);
-    console.log("formdataaaaaa", myFormData);
-  }, [uploaded]);
 
   useEffect(() => {
     console.log("running load data");
@@ -367,7 +307,6 @@ export const MainResultViewPage = () => {
           setIsSubjectSelected={setIsSubjectSelected}
           myFormData={myFormData}
           handleInputChange={handleInputChange}
-          handleSubmit={handleSubmit}
           resetForm={resetForm}
           teachers={teachers}
           setMyFormData={setMyFormData}
@@ -386,7 +325,6 @@ export const MainResultViewPage = () => {
           setIsSubjectSelected={setIsSubjectSelected}
           myFormData={myFormData}
           handleInputChange={handleInputChange}
-          handleSubmit={handleSubmit}
           resetForm={resetForm}
           teachers={teachers}
           setMyFormData={setMyFormData}
@@ -396,9 +334,11 @@ export const MainResultViewPage = () => {
           handleBack={handleBack}
           handleStudentChange={handleStudentChange}
           studentResults={studentResults}
-          classGradeResult={classGradeResult}
+          classGradeResult={classGradeResult? classGradeResult : ''}
           distinctSubjects={distinctSubjects}
           handlePrint={handlePrint}
+          handleCheck={handleCheck}
+          isChecked={isChecked}
         />
       )}
     </div>

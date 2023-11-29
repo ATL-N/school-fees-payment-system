@@ -81,10 +81,10 @@ export const ExpensesListing = () => {
         setResults(response.data);
 
         const amountsForDate = response.data.map(
-          (payment) => payment.AmountPaid
+          (payment) => parseFloat(payment.amountpaid)
         );
         sum = amountsForDate.reduce(
-          (accumulator, currentValue) => accumulator + currentValue,
+          (accumulator, currentValue) => parseFloat(accumulator) + parseFloat(currentValue),
           0
         );
         formattedMoney = new Intl.NumberFormat("en-GH", {
@@ -132,7 +132,7 @@ export const ExpensesListing = () => {
         );
         setResults(response.data);
         const amountsForDate = response.data.map(
-          (payment) => payment.AmountPaid
+          (payment) => parseFloat(payment.amountpaid)
         );
         sum = amountsForDate.reduce(
           (accumulator, currentValue) => accumulator + currentValue,

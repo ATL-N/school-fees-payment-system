@@ -15,9 +15,9 @@ export const AddEditGradesForm = (props) => {
       props.gradeResults?.map((grade)=>(
         props.setGradeFormData({
           ...props.gradeFormData,
-          gradeName: grade.GradeName,
-          minGradePoint: grade.MinGrade,
-          maxGradePoint: grade.MaxGrade,
+          gradeName: grade.gradename,
+          minGradePoint: grade.mingrade,
+          maxGradePoint: grade.maxgrade,
         })
   
         ))   
@@ -79,7 +79,7 @@ export const AddEditGradesForm = (props) => {
           <div className="nav-buttons">
             {props.gradeFormData && 
             <div className="clear-btn-div"> 
-              <input type="button" value={'RESET'}  onClick={props.resetForm} title='clear all fields' className="form-button clear-btn"/>
+              <input type="button" value={'Go Back'}  onClick={props.handleBack} title='clear all fields' className="form-button clear-btn"/>
                 {/* <input onClick={props.resetForm} title="clear all fields" className="form-button clear-btn">Reset</input> */}
             </div>}
 

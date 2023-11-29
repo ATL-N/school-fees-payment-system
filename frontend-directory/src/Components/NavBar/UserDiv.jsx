@@ -53,7 +53,7 @@ const handleLogout = async () => {
     if (response.status === 200) {
       // Successful log-out
       const {message} = response.data;
-      toast.success(message);
+      toast.info(message);
       setTimeout(() => {
         navigate('/loginpage');
       }, 500);      
@@ -75,7 +75,7 @@ const handleLogout = async () => {
     <div>
       {showCategories && (
       <div className="categories-div" onMouseLeave={handleMouseLeave} onMouseEnter={handleMouseEnter} >
-      <Link to={`/viewStaffDetails/${userDetails.id}`} className="link"><div className="details_div">{userDetails.StaffName}</div></Link>
+      <Link to={`/viewStaffDetails/${userDetails.id}`} className="link"><div className="details_div">{userDetails.staffname}</div></Link>
       {/* <Link to={`/notifications/${userDetails.id}`} className="link"><div className="details_div" >Notifications</div></Link> */}
       <Link to={`/changeStaffPassword/${userDetails.id}`} className="link"><div className="details_div" >CHANGE PASSWORD</div></Link>
       <div className="nav-buttons">

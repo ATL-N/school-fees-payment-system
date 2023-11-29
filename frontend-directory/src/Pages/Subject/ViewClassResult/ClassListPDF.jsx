@@ -31,8 +31,8 @@ export const ClassListPDF = ({ studentResults, className, numberOfColumns }) => 
   const renderTableRows = () => {
     return studentResults.map((result) => (
       <View key={result.StudentID} style={styles.tableRow}>
-        <Text style={styles.tableCell}>{result.StudentName}</Text>
-        <Text style={styles.tableCell}>{result.Contact}</Text>
+        <Text style={styles.tableCell}>{result.studentname}</Text>
+        <Text style={styles.tableCell}>{result.contact}</Text>
         {renderEmptyCells(numberOfColumns)}
       </View>
     ));

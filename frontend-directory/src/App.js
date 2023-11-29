@@ -50,6 +50,7 @@ import { ChangePassword } from "./Pages/AddStaff/ChangePassword";
 import { ErrorPage } from "./Pages/ErrorPage/ErrorPage";
 import { PrintClassListPdfPage } from "./Pages/Reports/PrintClassListPdfPage";
 import { MainAttendaceViewPage } from "./Pages/Attendance/MainAttendaceViewPage";
+import { AddEditSemester } from "./Pages/Semester/AddEditSemester";
 
 function App() {
   return (
@@ -116,6 +117,7 @@ function App() {
           <Route path="/addClassFees" element={<FeesAdding />} />
           <Route path="/changeStaffPassword/:id" element={<ChangePassword />} />
           <Route path="/takeAttendance" element={<MainAttendaceViewPage />} />
+          <Route path="/addSemester" element={<AddEditSemester />} />
 
           <Route path="*" element={<ErrorPage />} />
         </Routes>

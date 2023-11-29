@@ -58,7 +58,7 @@ axios.defaults.withCredentials = true;
           const { result, message, error } = response.data;
           console.log('result', result)
           if (message) {
-            toast.success(message);
+            toast.info(message);
             setTimeout(() => {
               setLoginFormData(initialState);
               navigate('/');

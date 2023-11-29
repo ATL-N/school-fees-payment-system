@@ -68,6 +68,7 @@ export const StudentPaymentHistory = () => {
 
   useEffect(() => {
     fetchPayment();
+    console.log('payments', payments)
   }, [query]);
 
   return (

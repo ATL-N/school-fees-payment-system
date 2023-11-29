@@ -31,12 +31,12 @@ console.log('props.academicYear', props.studentId, props.studentResult)
                 <tbody>
                   {props.studentResult?.map((studentGrade) => (
                     <tr key={studentGrade.id}>
-                      <td>{studentGrade.SubjectName}</td>
-                      <td>{studentGrade.ClassScore}</td>
-                      <td>{studentGrade.ExamScore}</td>
-                      <td>{studentGrade.TotalScore}</td>
-                      <td>{studentGrade.GradeName}</td>
-                      <td>{studentGrade.StudentPosition}</td>
+                      <td>{studentGrade.subjectname}</td>
+                      <td>{studentGrade.classscore}</td>
+                      <td>{studentGrade.examscore}</td>
+                      <td>{studentGrade.totalscore}</td>
+                      <td>{studentGrade.gradename}</td>
+                      <td>{studentGrade.studentposition}</td>
                     </tr>
                   ))}
                 </tbody>

@@ -15,14 +15,13 @@ export const AddEditExpensesForm = (props) => {
       props.classResults?.map((classes)=>(
         props.setClassFormData({
           ...props.expensesFormData,
-          className: classes.ClassName,
-          classTeacher: classes.ClassTeacher,
-          amount: classes.FeesForTheTime,
-          purpose: classes.ClassSize,
+          className: classes.classname,
+          classTeacher: classes.classteacher,
+          amount: classes.feesforthetime,
+          purpose: classes.classsize,
         })
   
         ))   
-        // console.log(props.setClassFormData, props.setClassFormData)   
     }
   
   }, [props.classResults])
@@ -62,7 +61,9 @@ export const AddEditExpensesForm = (props) => {
               name='amount' 
               onChange={props.handleInputChange} 
               placeholder="Enter the amount given out..." 
-              className='form-input'/>
+              className='form-input'
+              min={0}
+              />
           </div>
 
 

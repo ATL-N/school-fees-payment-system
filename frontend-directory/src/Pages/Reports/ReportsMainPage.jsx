@@ -49,9 +49,9 @@ export const ReportsMainPage = () => {
       );
       setPayments(response.data);
       console.log("response:", response.data);
-      const amounts = response.data.map((payment) => payment.AmountPaid);
+      const amounts = response.data.map((payment) => payment.amountpaid);
       sum = amounts.reduce(
-        (accumulator, currentValue) => accumulator + currentValue,
+        (accumulator, currentValue) => parseFloat(accumulator) + parseFloat(currentValue),
         0
       );
       formattedMoney = new Intl.NumberFormat("en-GH", {
@@ -68,10 +68,10 @@ export const ReportsMainPage = () => {
       setPaymentsForWeek(paymentForWeekresponse.data);
       console.log("paymentForWeekresponse:", paymentForWeekresponse.data);
       const amountsForWeek = paymentForWeekresponse.data.map(
-        (payment) => payment.AmountPaid
+        (payment) => payment.amountpaid
       );
       sum = amountsForWeek.reduce(
-        (accumulator, currentValue) => accumulator + currentValue,
+        (accumulator, currentValue) => parseFloat(accumulator) + parseFloat(currentValue),
         0
       );
       formattedMoney = new Intl.NumberFormat("en-GH", {
@@ -80,7 +80,7 @@ export const ReportsMainPage = () => {
         minimumFractionDigits: 2,
       }).format(sum);
       setTotalPaymentForWeek(formattedMoney);
-      console.log("Total amount for week:", amounts, sum);
+      console.log("Total amount for week:", amountsForWeek, sum);
 
       const expenseResponse = await axios.get(
         "http://localhost:5050/api/getExpensesForDay"
@@ -88,10 +88,10 @@ export const ReportsMainPage = () => {
       setExpenses(expenseResponse.data);
       console.log("expenseResponse:", expenseResponse.data);
       const expenseAmountsforDay = expenseResponse.data.map(
-        (payment) => payment.AmountPaid
+        (payment) => payment.amountpaid
       );
       sum = expenseAmountsforDay.reduce(
-        (accumulator, currentValue) => accumulator + currentValue,
+        (accumulator, currentValue) => parseFloat(accumulator) + parseFloat(currentValue),
         0
       );
       formattedMoney = new Intl.NumberFormat("en-GH", {
@@ -108,10 +108,10 @@ export const ReportsMainPage = () => {
       setTotalExpenseForWeek(expenseForWeekresponse.data);
       console.log("expenseForWeekresponse:", expenseForWeekresponse.data);
       const expenseAmountsForWeek = expenseForWeekresponse.data.map(
-        (expense) => expense.AmountPaid
+        (expense) => expense.amountpaid
       );
       sum = expenseAmountsForWeek.reduce(
-        (accumulator, currentValue) => accumulator + currentValue,
+        (accumulator, currentValue) => parseFloat(accumulator) + parseFloat(currentValue),
         0
       );
       formattedMoney = new Intl.NumberFormat("en-GH", {
@@ -156,10 +156,10 @@ export const ReportsMainPage = () => {
       setStudentsOwing(studentOwingresponse.data);
       console.log("studentOwingresponse:", studentOwingresponse.data);
       const amountOwing = studentOwingresponse.data.map(
-        (amountOwed) => amountOwed.AmountOwed
+        (amountOwed) => amountOwed.amountowed
       );
       sum = amountOwing.reduce(
-        (accumulator, currentValue) => accumulator + currentValue,
+        (accumulator, currentValue) => parseFloat(accumulator) + parseFloat(currentValue),
         0
       );
 
@@ -169,7 +169,7 @@ export const ReportsMainPage = () => {
         minimumFractionDigits: 2,
       }).format(sum);
       setTotalOwing(formattedMoney);
-      console.log("Total amount for week:", amounts, sum);
+      console.log("Total amountOwing for week:", amountOwing, sum);
     } catch (error) {
       console.error("Network error:", error);
     }

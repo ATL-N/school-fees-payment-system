@@ -15,12 +15,12 @@ export const AddEditSubjectForm = (props) => {
       props.subjectResults?.map((subject)=>(
         props.setSubjectFormData({
           ...props.subjectFormData,
-          subjectName: subject.SubjectName,
+          subjectName: subject.subjectname,
 
         })
   
         ))   
-        // console.log(props.setSubjectFormData, props.setSubjectFormData)   
+        console.log('props.setSubjectFormData', props.subjectFormData)   
     }
   
   }, [props.subjectResults])
@@ -60,7 +60,7 @@ export const AddEditSubjectForm = (props) => {
           <div className="nav-buttons">
             {props.subjectFormData && 
             <div className="clear-btn-div"> 
-              <input type="button" value={'RESET'}  onClick={props.resetForm} title='clear all fields' className="form-button clear-btn"/>
+              <input type="button" value={'Go Back'}  onClick={props.handleBack} title='clear all fields' className="form-button clear-btn"/>
                 {/* <input onClick={props.resetForm} title="clear all fields" className="form-button clear-btn">Reset</input> */}
             </div>}
 

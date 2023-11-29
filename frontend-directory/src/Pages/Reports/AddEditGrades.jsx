@@ -59,14 +59,8 @@ export const AddEditGrades = () => {
     }
   };
 
-  const resetForm = () => {
-    const confirmReset = window.confirm(
-      "Are you sure you want to reset the form?"
-    );
-    if (confirmReset) {
-      setGradeFormData(initialState);
-      // window.location.reload();
-    }
+  const handleBack = () => {
+    navigate(-1)
   };
 
   const loadData = async () => {
@@ -99,18 +93,26 @@ export const AddEditGrades = () => {
           minGradePoint: gradeFormData.minGradePoint,
           maxGradePoint: gradeFormData.maxGradePoint,
         })
-        .then(() => {
-          setGradeFormData(initialState);
+        .then((response) => {
+          const {message, error} = response.data;
+          // setGradeFormData(initialState);
+          if (response.data.message) {
+            toast.success(response.data?.message);
+            setTimeout(() => {
+              navigate(-1);
+            }, 500);
+            setGradeFormData(initialState);
+          } else if (response.data.error) {
+            toast.error(response.data.error);
+            setTimeout(() => {
+            }, 500);
+          } else {
+            toast.error("Internal Error");
+            setTimeout(() => {
+            }, 500);
+          }
         })
         .catch((err) => toast.error(err.response));
-
-      const successMessage = id
-        ? "Data updated successfully"
-        : "Data saved successfully";
-      toast.success(successMessage);
-      setTimeout(() => {
-        navigate(-1);
-      }, 500);
     }
   };
 
@@ -127,7 +129,7 @@ export const AddEditGrades = () => {
         gradeFormData={gradeFormData}
         handleInputChange={handleInputChange}
         handleSubmit={handleSubmit}
-        resetForm={resetForm}
+        handleBack={handleBack}
         teachers={teachers}
         setGradeFormData={setGradeFormData}
         id={id}

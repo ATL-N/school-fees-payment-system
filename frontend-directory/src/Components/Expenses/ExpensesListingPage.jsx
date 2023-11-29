@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom';
       <div className='search-input-container-div'>
         <input
           type="text"
-          placeholder="Search for a class..."
+          placeholder="Search for a Receipient or Purpose..."
           value={props.query}
           onChange={props.handleInputChange}
           onFocus={props.handleSearchBarFocus}
@@ -35,7 +35,7 @@ import { Link } from 'react-router-dom';
             <thead>
               <tr>
                 <th>expense ID</th>
-                <th>Amount Spent</th>
+                <th>Amount Spent(GHC)</th>
                 <th>Recipient</th>
                 <th>Purpose</th>
                 <th>Date</th>
@@ -46,15 +46,15 @@ import { Link } from 'react-router-dom';
               {props.results?.map(expense => (
                 <tr key={expense.id}>
                   <td>{expense.id}</td>
-                  <td>{(expense.AmountPaid).toLocaleString('en-GH', {
+                  <td>{(expense.amountpaid).toLocaleString('en-GH', {
                       style: 'currency',
                       currency: 'GHS',
                       minimumFractionDigits: 2,
                     })}
                   </td>
-                  <td>{expense.Receipient}</td>
-                  <td>{expense.Purpose}</td>
-                  <td>{expense.DateAdded}</td>
+                  <td>{expense.receipient}</td>
+                  <td>{expense.purpose}</td>
+                  <td>{expense.dateadded}</td>
                   <td>
                     <Link to={`/editClassDetails/${encodeURIComponent(expense.id)}`} className='link-remove form-button nav-button next-btn submit-btn'>Print</Link>
                   </td>

@@ -11,15 +11,15 @@ import { Link } from 'react-router-dom';
 
       <br />
       <div className='search-input-container-div'>
-        <input
+        {/* <input
           type="text"
-          placeholder="Search for a student..."
+          placeholder="Search for a grade..."
           value={props.query}
           onChange={props.handleInputChange}
           onFocus={props.handleSearchBarFocus}
           onBlur={props.handleSearchBarBlur}
           className='search-input'
-        />
+        /> */}
         <div className={`custom-dropdown ${props.isSearchBarActive || props.query!==''? 'open' : ''}`}>
           <Link className='link form-button submit-btn ' style={{color:"white"}} to={`/addGrades`}>
             Add New Grade
@@ -38,9 +38,9 @@ import { Link } from 'react-router-dom';
               {props.results?.map(grade => (
                 <tr key={grade.id}>
                   <td>{grade.id}</td>
-                  <td>{grade.GradeName}</td>
-                  <td>{grade.MinGrade}</td>
-                  <td>{grade.MaxGrade}</td>
+                  <td>{grade.gradename}</td>
+                  <td>{grade.mingrade}</td>
+                  <td>{grade.maxgrade}</td>
                   <td>
                     {/* <Link to={`/viewClassDetails/${encodeURIComponent(grade.id)}`} className='link-remove form-button nav-button next-btn submit-btn'>View</Link> */}
                     <Link to={`/editGradeDetails/${encodeURIComponent(grade.id)}`} className='link-remove form-button nav-button next-btn submit-btn'>Edit</Link>

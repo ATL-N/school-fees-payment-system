@@ -38,7 +38,7 @@ useEffect(() => {
     <div className='header-container'>
     <header className="header">
         <div><LogoBar/></div>
-        <div className='uppercase'><h1>Welcome, {userDetails?.StaffName}</h1></div>
+        <div className='uppercase'><h1>Welcome, {userDetails?.staffname}</h1></div>
         <div className='header-account-div'><UserAccount /></div>
 
         

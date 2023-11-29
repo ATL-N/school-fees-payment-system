@@ -112,7 +112,7 @@ const Watermark = () => (
 );
 
 export const PaymentPDF = ({ results }) => {
-  const paymentDate = new Date(results?.PaymentDate);
+  const paymentDate = new Date(results?.paymentdate);
   let formattedPaymentDate;
   if (!isNaN(paymentDate)) {
     // const formattedDate = parsedDate.toISOString().split('T')[0];
@@ -150,7 +150,7 @@ export const PaymentPDF = ({ results }) => {
 
             <View style={styles.row}>
               <Text style={styles.label}>Student Name:</Text>
-              <Text style={styles.value}>{results.StudentName}</Text>
+              <Text style={styles.value}>{results.studentname}</Text>
             </View>
 
             <View style={styles.row}>
@@ -160,41 +160,41 @@ export const PaymentPDF = ({ results }) => {
 
             <View style={styles.row}>
               <Text style={styles.label}>Fee Type:</Text>
-              <Text style={styles.value}>{results.FeesName}</Text>
+              <Text style={styles.value}>{results.feesname}</Text>
             </View>
 
             <View style={styles.row}>
               <Text style={styles.label}>Old Balance:</Text>
               <Text style={styles.value}>
-                {formatCurrency(results.InitialAccountBalance)}
+                {formatCurrency(results.initialaccountbalance)}
               </Text>
             </View>
 
             <View style={styles.row}>
               <Text style={styles.label}>Amount Paid:</Text>
               <Text style={styles.value}>
-                {formatCurrency(results.AmountPaid)}
+                {formatCurrency(results.amountpaid)}
               </Text>
             </View>
 
             <View style={styles.row}>
               <Text style={styles.label}>New Balance:</Text>
               <Text style={styles.value}>
-                {formatCurrency(results.CurrentBalance)}
+                {formatCurrency(results.currentbalance)}
               </Text>
             </View>
 
             
 
-            <View style={styles.row}>
+            {/* <View style={styles.row}>
               <Text style={styles.label}>Received From:</Text>
-              <Text style={styles.value}>{results.ReceivedFrom}</Text>
-            </View>
+              <Text style={styles.value}>{results.receivedfrom}</Text>
+            </View> */}
 
-            <View style={styles.row}>
+            {/* <View style={styles.row}>
               <Text style={styles.label}>Comment:</Text>
-              <Text style={styles.value}>{results.Comment}</Text>
-            </View>
+              <Text style={styles.value}>{results.comment}</Text>
+            </View> */}
 
             <View style={styles.notification}>
               <Text>*negative balance means the stated amount is carried forward*</Text>

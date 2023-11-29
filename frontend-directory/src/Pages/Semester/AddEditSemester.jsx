@@ -2,21 +2,20 @@ import React, { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-import "./AddEditClass.css";
-import { AddEditClassForm } from "../../Components/Class/AddEditClassForm";
 import { StateContext } from "../../Components/utils/Context";
+import { AddEditSemesterForm } from "./AddEditSemesterForm";
 
 
-export const AddEditClass = () => {
+export const AddEditSemester = () => {
   const initialState = {
-    className: "",
-    classTeacher: "",
-    feesForTheTime: "",
-    classSize: "",
+    semesterName: "",
+    dateStart: "",
+    dateEnd: "",
+    active: "Yes",
   };
 
   const { showNavBar, setShowNavBar, userDetails, setUserDetails} = useContext(StateContext);
-  const [classFormData, setClassFormData] = useState(initialState);
+  const [semesterFormData, setSemesterFormData] = useState(initialState);
   const [teachers, setTeachers] = useState([]);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -45,11 +44,11 @@ export const AddEditClass = () => {
 
 
   const updateField = (field, value) => {
-    setClassFormData({
-      ...classFormData,
+    setSemesterFormData({
+      ...semesterFormData,
       [field]: value,
     });
-    console.log(classFormData);
+    console.log(semesterFormData);
   };
 
   const handleInputChange = (e) => {
@@ -69,55 +68,35 @@ export const AddEditClass = () => {
       "Are you sure you want to reset the form?"
     );
     if (confirmReset) {
-      setClassFormData(initialState);
-      // window.location.reload();
+      setSemesterFormData(initialState);
+      window.location.reload();
     }
   };
 
-  const fetchTeachers = async () => {
-    const response = await axios.get("http://localhost:5050/api/getStaff");
-    setTeachers(response.data);
-    console.log("fetching Teachers");
-  };
-
-  const loadData = async () => {
-    try {
-      const classResponse = await axios.get(
-        `http://localhost:5050/api/getClasses/${id}`
-      );
-      if (classResponse.data.length > 0) {
-        const selectedClass = classResponse.data[0];
-        console.log("classResponse", classResponse, selectedClass);
-        setClassResults(classResponse.data);
-      }
-    } catch (error) {
-      console.error("Error loading data:", error);
-    }
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!classFormData.className || !classFormData.classTeacher) {
+    if (!semesterFormData.semesterName || !semesterFormData.dateStart) {
       toast.error("Please provide a value for each input field.");
     } else {
       const confirmedClassAdd = window.confirm(`complete fees payment`);
       if(confirmedClassAdd){
       const apiUrl = id
         ? `http://localhost:5050/api/updateClass/${id}`
-        : "http://localhost:5050/api/addClass";
+        : "http://localhost:5050/api/addSemester";
 
       axios
         .post(apiUrl, {
-          className: classFormData.className,
-          classTeacher: classFormData.classTeacher,
-          feesForTheTime: classFormData.feesForTheTime,
-          classSize: classFormData.classSize,
+          semesterName: semesterFormData.semesterName,
+          dateStart: semesterFormData.dateStart,
+          dateEnd: semesterFormData.dateEnd,
+          active: semesterFormData.active,
         })
         .then((response) => {
           const { message } = response.data;
           if (message){
-            setClassFormData(initialState);
+            setSemesterFormData(initialState);
             toast.success(message);
             setTimeout(() => {
               navigate(-1);
@@ -136,27 +115,17 @@ export const AddEditClass = () => {
     }
   };
 
-  useEffect(() => {
-    fetchTeachers();
-    if (id) {
-      console.log("running load data");
-      loadData();
-    }
-  }, []);
 
   return (
     <>
     <div className="form-container">
-      <AddEditClassForm
-        classFormData={classFormData}
+      <AddEditSemesterForm
+        semesterFormData={semesterFormData}
         handleInputChange={handleInputChange}
         handleSubmit={handleSubmit}
         resetForm={resetForm}
-        teachers={teachers}
-        classResults={classResults}
-        setClassFormData={setClassFormData}
+        setSemesterFormData={setSemesterFormData}
         id={id}
-        // classFormData = {classFormData}
       />
     </div>
     

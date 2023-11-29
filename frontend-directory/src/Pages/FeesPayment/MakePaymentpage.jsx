@@ -21,7 +21,7 @@ export const MakePaymentpage = (props) => {
           
           <div className='form-input-div'>student Name: 
             <input type="text" 
-              value={props.student.StudentName} 
+              value={props.student.studentname} 
               name='studentName' 
               className='form-input readonly'
               readOnly
@@ -30,7 +30,7 @@ export const MakePaymentpage = (props) => {
 
           <div className='form-input-div '>Class: 
             <input type="text" 
-              value={props.student.ClassName} 
+              value={props.student.classname} 
               name='studentClass' 
               className='form-input readonly'
               readOnly
@@ -39,7 +39,7 @@ export const MakePaymentpage = (props) => {
 
           <div className='form-input-div '>Current Balance(Ghc): 
             <input type="number" 
-              value={-props.student.AmountOwed} 
+              value={-props.student.amountowed} 
               name='amountOwed' 
               placeholder="Enter the pupil's class here..." 
               className='form-input readonly'

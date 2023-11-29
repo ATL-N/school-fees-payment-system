@@ -10,8 +10,7 @@ export const MainAttendaceViewPage = () => {
   const currentDate = new Date();
   const year = currentDate.getFullYear();
 
-  const { showNavBar, setShowNavBar, userDetails, setUserDetails } =
-    useContext(StateContext);
+  const { showNavBar, setShowNavBar, userDetails, setUserDetails, currentTerm, setCurrentTerm } = useContext(StateContext);
   const [isSubjectSelected, setIsSubjectSelected] = useState(false);
   const [isPrintingPage, setIsPrintingPage] = useState(false);
 
@@ -78,7 +77,7 @@ export const MainAttendaceViewPage = () => {
   const loadClassResult = async () => {
     try {
       const classAccessmentResponse = await axios.get(
-        `http://localhost:5050/api/getAllClassAccessment?classId=${myFormData.classId}&semester=${myFormData.semester}&year=${myFormData.year}`
+        `http://localhost:5050/api/getAllClassAssessment?classId=${myFormData.classId}&semester=${myFormData.semester}&year=${myFormData.year}`
       );
 
       setClassGradeResult(classAccessmentResponse.data);
@@ -104,7 +103,16 @@ export const MainAttendaceViewPage = () => {
 
   const loadData = async () => {
     try {
-      console.log("laoding data");
+
+      const currentSem = await axios.get(
+        "http://localhost:5050/api/getSemester"
+      );
+      setCurrentTerm(currentSem.data[0]);
+      console.log("currentSem:", currentSem.data[0].semestername);
+      setMyFormData({
+        ...myFormData,
+        semester: currentSem.data[0].semestername,
+      });
 
       const clasResponse = await axios.get(
         `http://localhost:5050/api/getClasses`
@@ -317,11 +325,20 @@ export const MainAttendaceViewPage = () => {
         .then((response) => {
           setMyFormData(initialState);
           const {message, error} = response.data
-          toast.success(message);
+          if (error){
+            toast.error(error);
+          setTimeout(() => {
+            // navigate(-1);
+            // loadClassResult();
+          }, 500);
+          }else{
+            toast.success(message);
           setTimeout(() => {
             navigate(-1);
             loadClassResult();
           }, 500);
+          }
+          
         })
         .catch((err) => toast.error("error", err.response));
 
@@ -335,6 +352,10 @@ export const MainAttendaceViewPage = () => {
   useEffect(() => {
     console.log("running load data");
     loadData();
+    setMyFormData({
+      ...myFormData,
+      semester: currentTerm.semestername,
+    });
   }, [isSubjectSelected]);
 
   return (
@@ -346,13 +367,13 @@ export const MainAttendaceViewPage = () => {
           handleInputChange={handleInputChange}
           handleSubmit={handleSubmit}
           resetForm={resetForm}
-          teachers={teachers}
+          // teachers={teachers}
           setMyFormData={setMyFormData}
           id={id}
-          subjectResults={subjectResults}
+          // subjectResults={subjectResults}
           staffResults={staffResults}
           clasResults={clasResults}
-          handleSubjectChange={handleSubjectChange}
+          // handleSubjectChange={handleSubjectChange}
           handleClassChange={handleClassChange}
           handleSubmit1={handleSubmit1}
           goback={goback}

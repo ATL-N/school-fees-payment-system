@@ -131,7 +131,7 @@ export const PaymentList = () => {
         );
         setPayments(response.data);
         const amountsForDate = response.data.map(
-          (payment) => payment.AmountPaid
+          (payment) => payment.amountpaid
         );
         sum = amountsForDate.reduce(
           (accumulator, currentValue) => accumulator + currentValue,
@@ -153,7 +153,7 @@ export const PaymentList = () => {
         );
         setPayments(response.data);
         const amountsForDate = response.data.map(
-          (payment) => payment.AmountPaid
+          (payment) => payment.amountpaid
         );
         sum = amountsForDate.reduce(
           (accumulator, currentValue) => accumulator + currentValue,
@@ -174,6 +174,7 @@ export const PaymentList = () => {
 
   useEffect(() => {
     fetchPayment();
+    console.log('fetched payments:', payments)
   }, [query]);
 
   return (

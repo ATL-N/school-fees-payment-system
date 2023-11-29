@@ -8,16 +8,19 @@ export const StateContext = createContext({
   setShowNavBar: () => {},
   showCategories: false,
   setShowCategories: () => {},
+  currentTerm: '',
+  setCurrentTerm: () => {},
 
 });
 
 export const StateProvider = ( {children} ) => {
   const [userDetails, setUserDetails] = useState('');
+  const [currentTerm, setCurrentTerm] = useState('');
   const [showNavBar, setShowNavBar] = useState(true);
   const [showCategories, setShowCategories] = useState(false);
 
   return (
-    <StateContext.Provider value={{userDetails, setUserDetails, showNavBar, setShowNavBar, showCategories, setShowCategories}}>  
+    <StateContext.Provider value={{userDetails, setUserDetails, showNavBar, setShowNavBar, showCategories, setShowCategories,currentTerm, setCurrentTerm}}>  
       {children}
     </StateContext.Provider>
   );

@@ -38,10 +38,10 @@ export const StudentOwingListingPage = (props) => {
               {props.results.map(student => (
                 <tr key={student.id}>
                   <td>{student.id}</td>
-                  <td>{student.StudentName}</td>
+                  <td>{student.studentname}</td>
                   <td>
-                    {student.AmountOwed != null ? (
-                      (-1 * student.AmountOwed).toLocaleString('en-GH', {
+                    {student.amountowed != null ? (
+                      (-1 * student.amountowed).toLocaleString('en-GH', {
                         style: 'currency',
                         currency: 'GHS',
                         minimumFractionDigits: 2,
@@ -49,8 +49,8 @@ export const StudentOwingListingPage = (props) => {
                     ) : (
                       ''
                     )}                    </td>
-                  <td>{student.DateOfBirth}</td>
-                  <td>{student.Class}</td>
+                  <td>{student.dateofbirth}</td>
+                  <td>{student.classname}</td>
                   <td>
                     <Link to={`/viewStudentDetails/${encodeURIComponent(student.id)}`} className='link-remove form-button nav-button next-btn submit-btn'>View</Link>
                     <Link to={`/editStudentDetails/${encodeURIComponent(student.id)}`} className='link-remove form-button nav-button next-btn submit-btn'>Edit</Link>

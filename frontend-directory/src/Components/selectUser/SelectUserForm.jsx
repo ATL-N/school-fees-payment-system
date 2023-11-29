@@ -33,9 +33,9 @@ export const SelectUserForm = (props) => {
               <tbody>
                 {props.results?.map((student) => (
                   <tr key={student.id}>
-                    <td>{student.StudentName}</td>
-                    <td>{student.ClassName}</td>
-                    <td>{(-1 * student.AmountOwed).toLocaleString('en-GH', {
+                    <td>{student.studentname}</td>
+                    <td>{student.classname}</td>
+                    <td>{(-1 * student.amountowed).toLocaleString('en-GH', {
                         style: 'currency',
                         currency: 'GHS',
                         minimumFractionDigits: 2,

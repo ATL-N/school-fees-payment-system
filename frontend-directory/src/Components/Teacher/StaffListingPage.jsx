@@ -37,14 +37,14 @@ export const StaffListingPage = (props) => {
               {props.results.map(staff => (
                 <tr key={staff.id}>
                   <td>{staff.id}</td>
-                  <td>{staff.StaffName}</td>
-                  <td>{staff.Gender}</td>
-                  <td>{staff.DateAdded}</td>
-                  <td>{staff.Role}</td>
+                  <td>{staff.staffname}</td>
+                  <td>{staff.gender}</td>
+                  <td>{staff.dateadded}</td>
+                  <td>{staff.role}</td>
                   <td>
                     <Link to={`/viewStaffDetails/${encodeURIComponent(staff.id)}`} className='link-remove form-button nav-button next-btn submit-btn'>View</Link>
                     <Link to={`/editStaff/${encodeURIComponent(staff.id)}`} className='link-remove form-button nav-button next-btn submit-btn'>Edit</Link>
-                    <button onClick={() => props.handleDelete(staff.id, staff.StaffName)} className='link-remove form-button clear-btn'>Delete</button>
+                    <button onClick={() => props.handleDelete(staff.id, staff.staffname)} className='link-remove form-button clear-btn'>Delete</button>
                   </td>
                 </tr>
               ))}

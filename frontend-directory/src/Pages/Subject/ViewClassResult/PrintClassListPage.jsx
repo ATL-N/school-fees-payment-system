@@ -59,9 +59,9 @@ export const PrintClassListPage = (props) => {
                 </thead>
                 <tbody>
                   {props.studentResults.map((result) => (
-                    <tr key={result.StudentID}>
-                      <td>{result.StudentName}</td>
-                      <td>{result.Contact}</td>
+                    <tr key={result.studentid}>
+                      <td>{result.studentname}</td>
+                      <td>{result.contact}</td>
                       <td>{tableRows}</td>
                     </tr>
                   ))}

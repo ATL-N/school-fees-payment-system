@@ -30,7 +30,7 @@ export const SelectClass = (props) => {
               >
                 <option value="" disabled >select class from system</option>
                 {props.clasResults?.map((clas) => (
-                  <option key={clas.id} value={clas.id}>{clas.ClassName}</option>
+                  <option key={clas.id} value={clas.id}>{clas.classname}</option>
                 ))}            
               </select>
             </div>
@@ -54,9 +54,9 @@ export const SelectClass = (props) => {
               value={props.myFormData.semester}
               >
                 <option value="" disabled >select class from system</option>
-                <option value="1" >First term</option>
-                <option value="2" >Second term</option>
-                <option value="3" >Third term</option>
+                <option value={1} >First term</option>
+                <option value={2} >Second term</option>
+                <option value={3} >Third term</option>
                            
               </select>
             </div>

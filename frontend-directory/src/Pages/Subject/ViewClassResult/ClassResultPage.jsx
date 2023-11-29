@@ -8,7 +8,7 @@ export const ClassResultPage = (props) => {
   return (
     <>
     <div className='form-container'>
-        < div className='group-title-div form-info'>current class({props.myFormData.className}) result for {props.myFormData.subjectName} in {props.myFormData.year} term, {props.myFormData.semester}</div>
+        < div className='group-title-div form-info'>current class({props.myFormData.className}) result? for {props.myFormData.subjectName} in {props.myFormData.year} term, {props.myFormData.semester}</div>
 
       <form onSubmit={props.handleSearch} className='search-container'>
       {/* <label htmlFor=""></label> */}
@@ -24,28 +24,46 @@ export const ClassResultPage = (props) => {
               <tr>
                 <th>Student Name</th>
 
-                {props.distinctSubjects.map((subject) => (
+                {props.distinctSubjects?.map((subject) => (
                 <th key={subject}>{subject}</th>
                 ))}
 
               <th>Total Score</th>
               <th>Position</th>
+              <th>Print</th>
               <th>Action</th>
 
               </tr>
               </thead>
               <tbody>
-                {props.classGradeResult.map((result) => (
-                  <tr key={result.StudentID}>
-                    <td>{result.StudentName}</td>
-                    {props.distinctSubjects.map((subject) => (
+                {props.classGradeResult?.map((result) => (
+                  <tr key={result?.studentid}>
+                    <td>{result?.studentname}</td>
+                    {props.distinctSubjects?.map((subject) => (
                       <td key={subject}>{result[subject]}</td>
                     ))}
-                    <td>{result.total}</td>
-                    <td>{result.position}</td>
+                    <td>{result?.total}</td>
+                    <td>{result?.position}</td>
                     <td>
-                      <Link style={{textDecoration:'none'}} className='form-button' target="" to={`/viewStudentResult/${encodeURIComponent(result.StudentID)}/${encodeURIComponent(props.myFormData.classId)}/${encodeURIComponent(props.myFormData.semester)}/${encodeURIComponent(props.myFormData.year)}/${encodeURIComponent(result.total)}/${encodeURIComponent(result.position)}`}>
+                      <input
+                          type="checkbox"
+                          checked={result?.isChecked}
+                          value={'Abscent'}
+                          onChange={(e) =>
+                            props.handleCheck(result?.studentid, props.myFormData.classId, props.myFormData.semester, props.myFormData.year, result?.total, result?.position)
+                          }
+                          className="radio-btn"
+                          name={result?.studentid + "attendance"}
+                        
+                        />
+                    </td>
+                    <td>
+                      <Link style={{textDecoration:'none'}} className='form-button' target="" to={`/viewStudentResult/${encodeURIComponent(result?.studentid)}/${encodeURIComponent(props.myFormData.classId)}/${encodeURIComponent(props.myFormData.semester)}/${encodeURIComponent(props.myFormData.year)}/${encodeURIComponent(result?.total)}/${encodeURIComponent(result?.position)}`}>
                         View Results
+                      </Link>
+
+                      <Link style={{textDecoration:'none'}} className='form-button' target="_blank" to={`/printStudentResult/${encodeURIComponent(result?.studentid)}/${encodeURIComponent(props.myFormData.classId)}/${encodeURIComponent(props.myFormData.semester)}/${encodeURIComponent(props.myFormData.year)}/${encodeURIComponent(result?.total)}/${encodeURIComponent(result?.position)}`}>
+                        Print
                       </Link>
                     </td>
                   </tr>

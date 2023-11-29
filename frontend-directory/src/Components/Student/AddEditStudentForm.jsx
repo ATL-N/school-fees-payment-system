@@ -7,6 +7,13 @@ import { yupschema } from '../utils/utils';
 
 export const AddEditStudentForm = (props) => {
 
+  const formtDate = (postgresDate) => {
+    const datePart = postgresDate.split("T")[0];
+    const parts = datePart.split("-");
+    const formattedDate = `${parts[1]}-${parts[2]}-${parts[0]}`;
+    console.log('formattedDate', datePart, formattedDate)
+    return formattedDate
+  }
 
   useEffect(()=>{
     if(props.id){
@@ -16,26 +23,26 @@ export const AddEditStudentForm = (props) => {
         props.setStudentFormData({
           ...props.studentFormData,
           stuId: props.id,
-          image: student.Image,
-          studentName: student.StudentName,
-          studentClass: student.ClassName,
+          image: student.image,
+          studentName: student.studentname,
+          studentClass: student.classname,
           classid: student.classid,
-          amountOwed: student.AmountOwed,
-          dateOfBirth: student.DateOfBirth,
-          gender: student.Gender,
-          address: student.Address,
+          amountOwed: student.amountowed,
+          dateOfBirth: student.dateofbirth,
+          gender: student.gender,
+          address: student.address,
           parentMId: props.parent1.id,
-          customParentNameM: props.parent1.ParentName,
-          customParentNameMTel: props.parent1.ContactNumber,
-          customParentNameMMail: props.parent1.Email,
-          parentNameMAddress: props.parent1.ResidenceAddress,
-          customParentNameMRelation: props.parent1Mapping.RelationToWard,
+          customParentNameM: props.parent1.parentname,
+          customParentNameMTel: props.parent1.contactnumber,
+          customParentNameMMail: props.parent1.email,
+          parentNameMAddress: props.parent1.residenceaddress,
+          customParentNameMRelation: props.parent1Mapping.relationtoward,
           parentSId: props.parent2.id,
-          custompPrentNameS: props.parent2.ParentName,
-          customParentNameSTel: props.parent2.ContactNumber,
-          customParentNameSMail: props.parent2.Email,
-          parentNameSAddress: props.parent2.ResidenceAddress,
-          customParentNameSRelation: props.parent2Mapping.RelationToWard,
+          custompPrentNameS: props.parent2.parentname,
+          customParentNameSTel: props.parent2.contactnumber,
+          customParentNameSMail: props.parent2.email,
+          parentNameSAddress: props.parent2.residenceaddress,
+          customParentNameSRelation: props.parent2Mapping.relationtoward,
           
         })
   
@@ -66,7 +73,7 @@ export const AddEditStudentForm = (props) => {
           <div className='group-div'>
             < div className='group-title-div'>Student details</div>
 
-            <div className='form-input-div'> Picture: 
+            { !props.id && <div className='form-input-div'> Picture: 
               <input type="file" 
                 accept="image/jpeg, image/png" 
                 name='image' 
@@ -76,6 +83,8 @@ export const AddEditStudentForm = (props) => {
                 />
                 
             </div>
+            }
+
 
             <div className='form-input-div'>student Name: 
               <input type="text" 
@@ -111,7 +120,7 @@ export const AddEditStudentForm = (props) => {
               <select defaultValue="" name="classid" id="classid" className='form-input' placeholder='select student Class' onChange={(e) => props.handleInputChange(e, props.results)} value={props.studentFormData.classid} required>
                 <option  value="" disabled>select student Class</option>
                 {props.results?.map((classes) => (
-                  <option key={classes.id} value={classes.id}>{classes.ClassName}</option>
+                  <option key={classes.id} value={classes.id}>{classes.classname}</option>
                 ))}
 
               </select>
@@ -160,7 +169,7 @@ export const AddEditStudentForm = (props) => {
                 <option style={{color:'lightgray'}} value="" selected>select parent from system</option>
                 <option value="others" className='others'>Not on the List?</option>
                 {props.parentResults?.map((parent) => (
-                  <option key={parent.id} value={parent.id}>{parent.ParentName}</option>
+                  <option key={parent.id} value={parent.id}>{parent.parentname}</option>
                 ))}            
               </select>
             </div>
@@ -194,7 +203,7 @@ export const AddEditStudentForm = (props) => {
                 name='customParentNameMMail' onChange={props.handleInputChange}
                 placeholder="Enter the first parent's name here(optional)..."  
                 className='form-input'
-                required
+                // required
                 />
               </div>
 
@@ -240,10 +249,10 @@ export const AddEditStudentForm = (props) => {
             value={props.studentFormData.parentSId}
             required
             >
-              <option value="" disabled >select parent from system</option>
+              <option style={{color:'lightgray'}} value="" selected>select parent from system</option>
               <option value="others" className='others'>Not on the List?</option>
               {props.parentResults?.map((parent) => (
-                <option key={parent.id} value={parent.id}>{parent.ParentName}</option>
+                <option key={parent.id} value={parent.id}>{parent.parentname}</option>
               ))}            
             </select>
 
@@ -280,7 +289,7 @@ export const AddEditStudentForm = (props) => {
             name='customParentNameSMail' onChange={props.handleInputChange}
             placeholder="Enter the SECOND parent's name here(optional)..."  
             className='form-input'
-            required
+            // required
             />
           </div>
 

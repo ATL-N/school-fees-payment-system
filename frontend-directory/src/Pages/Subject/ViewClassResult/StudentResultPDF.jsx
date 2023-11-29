@@ -7,23 +7,30 @@ const styles = StyleSheet.create({
     flexDirection: 'landscape', // Set to landscape orientation
     size: 'A3', // Use A3 paper size
     paddingTop: 20,
-    paddingRight: 40,
-    paddingBottom: 20,
-    paddingLeft: 40,
+    paddingRight: 30,
+    paddingBottom: 10,
+    paddingLeft: 30,
   },
   title: {
-    fontSize: 24,
-    marginBottom: 10,
+    fontSize: 20,
+    marginBottom: 5,
     textAlign: 'center',
   },
   textName: {
-    marginBottom: 10,
+    marginBottom: 5,
     textAlign: 'center',
+    fontSize: 14,
+  },
+  textName1: {
+    marginBottom: 5,
+    textAlign: 'left',
+    fontSize: 12,
   },
   table: {
     display: 'table',
     width: 'auto',
-    marginTop: 20,
+    marginTop: 10,
+    marginBottom: 5,
   },
   tableRow: {
     flexDirection: 'row',
@@ -33,6 +40,8 @@ const styles = StyleSheet.create({
     border: '1px solid #000',
     padding: 5,
     textAlign: 'center',
+    fontSize: 15,
+
   },
   grayBackground: {
     backgroundColor: '#f2f2f2',
@@ -56,7 +65,11 @@ export const StudentResultPDF = ({ studentId, academicYear, semester, studentRes
             GREATER GRACE CHRISTIAN ACADEMY
           </Text>
           <Text style={styles.textName}>
-            NAME: {studentName}     YEAR: {academicYear}    Term: {semester}    
+            NAME: {studentName}     YEAR: {academicYear}    Term: {semester}
+          </Text>
+
+          <Text style={styles.textName}>
+            attendace: {}/{}    overall Position: {overallPosition}   total score: {total}
           </Text>
           <View style={styles.table}>
             <View style={styles.tableRow}>
@@ -69,26 +82,23 @@ export const StudentResultPDF = ({ studentId, academicYear, semester, studentRes
             </View>
             {studentResult?.map((studentGrade) => (
               <View key={studentGrade.id} style={styles.tableRow}>
-                <Text style={[styles.tableCell, styles.grayBackground]}>{studentGrade.SubjectName}</Text>
-                <Text style={styles.tableCell}>{studentGrade.ClassScore}</Text>
-                <Text style={styles.tableCell}>{studentGrade.ExamScore}</Text>
-                <Text style={styles.tableCell}>{studentGrade.GradeName}</Text>
-                <Text style={[styles.tableCell, styles.grayBackground]}>{studentGrade.TotalScore}</Text>
-                <Text style={[styles.tableCell, styles.grayBackground]}>{studentGrade.StudentPosition}</Text>
+                <Text style={[styles.tableCell, styles.grayBackground]}>{studentGrade.subjectname}</Text>
+                <Text style={styles.tableCell}>{studentGrade.classscore}</Text>
+                <Text style={styles.tableCell}>{studentGrade.examscore}</Text>
+                <Text style={styles.tableCell}>{studentGrade.gradename}</Text>
+                <Text style={[styles.tableCell, styles.grayBackground]}>{studentGrade.totalscore}</Text>
+                <Text style={[styles.tableCell, styles.grayBackground]}>{studentGrade.studentposition}</Text>
               </View>
             ))}
           </View>
-          <Text style={[styles.textName , styles.total]}>
-            total score: {total}    overall Position: {overallPosition}
-            </Text>
             <View>
-              <Text style={[styles.textName ,]}>
-              Class teacher's remark: .................................................................
-              ......................................................................................................
+              <Text style={[styles.textName1 ,]}>
+              Class teacher's remark: ........................................................................................................................
+              ........................................................................................................................................................
               </Text>
-              <Text style={[styles.textName ,]}>
-              Head teacher's remark: .................................................................
-              ......................................................................................................
+              <Text style={[styles.textName1 ,]}>
+              Head teacher's remark: ..........................................................................................................................
+              ........................................................................................................................................................
               </Text>
             </View>
         </Page>

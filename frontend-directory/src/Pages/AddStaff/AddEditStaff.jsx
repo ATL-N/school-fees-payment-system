@@ -5,6 +5,8 @@ import { toast } from "react-toastify";
 import "../Student/AddEditStudent.css";
 import { AddEditStaffForm } from "../../Components/Teacher/AddEditStaffForm";
 import { StateContext } from "../../Components/utils/Context";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { storage, database } from "../../Components/config/firebase";
 
 export const AddEditStaff = () => {
   const initialState = {
@@ -19,7 +21,7 @@ export const AddEditStaff = () => {
     role: "",
     address: "",
     salary: null,
-    password: 1234,
+    password: '1234',
   };
 
   const { showNavBar, setShowNavBar, userDetails, setUserDetails } =
@@ -27,6 +29,7 @@ export const AddEditStaff = () => {
   const [staffResults, setStaffResults] = useState([]);
   const [staffFormData, setStaffFormData] = useState(initialState);
   const [selectedImage, setSelectedImage] = useState("");
+  const [imageUpload, setImageUpload] = useState(null);
   const { id } = useParams();
   const navigate = useNavigate();
   var imageURL = "";
@@ -63,6 +66,7 @@ export const AddEditStaff = () => {
 
     if (name === "image") {
       const imageSelected = files[0];
+      setImageUpload(imageSelected);
       imageURL = URL.createObjectURL(imageSelected);
       setSelectedImage(imageURL);
       console.log("running file:");
@@ -82,16 +86,16 @@ export const AddEditStaff = () => {
           setStaffFormData({
             ...staffFormData,
             staffId: id,
-            image: staff.Image,
-            staffName: staff.StaffName,
-            dateOfBirth: staff.DateOfBirth,
-            contactNumber: staff.ContactNumber,
-            email: staff.Email,
-            gender: staff.Gender,
-            qualification: staff.Qualification,
-            role: staff.Role,
-            address: staff.Address,
-            salary: staff.Salary,
+            image: staff.image,
+            staffName: staff.staffname,
+            dateOfBirth: staff.dateofbirth,
+            contactNumber: staff.contactnumber,
+            email: staff.email,
+            gender: staff.gender,
+            qualification: staff.qualification,
+            role: staff.role,
+            address: staff.address,
+            salary: staff.salary,
           })
         );
       } else {
@@ -113,9 +117,7 @@ export const AddEditStaff = () => {
       if (response.data.length > 0) {
         const selectedStaff = response.data[0];
 
-        setSelectedImage(
-          `http://localhost:5050/uploads/${selectedStaff.Image}`
-        );
+        setSelectedImage(selectedStaff.image);
         console.log("fetching staff3");
         setStaffResults(response.data);
         console.log("response:", response.data);
@@ -127,51 +129,70 @@ export const AddEditStaff = () => {
     }
   };
 
-  const handleSubmit = (e) => {
-    const confirmSubmit = window.confirm(
-      "Are you sure you want to submit the data?"
-    );
-    if (confirmSubmit) {
-      e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-      if (!staffFormData.staffName || !staffFormData.role) {
-        toast.error("Please provide a value for each input.");
-      } else {
+    if (!staffFormData.staffName || !staffFormData.role) {
+      toast.error("Please provide a value for each input.");
+    } else {
+      const confirmSubmit = window.confirm(
+        "Are you sure you want to submit the data?"
+      );
+      if (confirmSubmit) {
+        const currentDate = new Date();
+        const currentDateToString = currentDate.toISOString();
+      
+        let downloadURL = ''; // Initialize downloadURL variable outside the try-catch block
+      
+        if (!id) {
+          const imageRef = ref(
+            storage,
+            `images/${imageUpload?.name + currentDateToString}`
+          );
+          const snapshot = await uploadBytes(imageRef, imageUpload);
+      
+          try {
+            downloadURL = await getDownloadURL(snapshot.ref);
+            console.log("downloadURL", downloadURL);
+          } catch (error) {
+            toast.error(error);
+            return; // Exit the function if there's an error in image upload
+          }
+        }
+      
         const apiUrl = id
           ? `http://localhost:5050/api/updateStaff/${id}`
           : "http://localhost:5050/api/addStaff";
-
-        const formDataToSend = new FormData();
-        formDataToSend.append("image", staffFormData.image);
-        formDataToSend.append("staffName", staffFormData.staffName);
-        formDataToSend.append("dateOfBirth", staffFormData.dateOfBirth);
-        formDataToSend.append("contactNumber", staffFormData.contactNumber);
-        formDataToSend.append("email", staffFormData.email);
-        formDataToSend.append("gender", staffFormData.gender);
-        formDataToSend.append("qualification", staffFormData.qualification);
-        formDataToSend.append("role", staffFormData.role);
-        formDataToSend.append("address", staffFormData.address);
-        formDataToSend.append("salary", staffFormData.salary);
-        formDataToSend.append("password", staffFormData.password);
-
+      
         axios
-          .post(apiUrl, formDataToSend)
+          .post(apiUrl, {
+            image: downloadURL, // Use the downloadURL in the request
+            staffName: staffFormData.staffName,
+            dateOfBirth: staffFormData.dateOfBirth,
+            contactNumber: staffFormData.contactNumber,
+            email: staffFormData.email,
+            gender: staffFormData.gender,
+            qualification: staffFormData.qualification,
+            role: staffFormData.role,
+            address: staffFormData.address,
+            salary: staffFormData.salary,
+            password: staffFormData.password,
+          })
           .then((response) => {
-            console.log('running then column', response)
+            // console.log("running then column", response);
             if (response.data.message) {
-              setStaffFormData(initialState);
+              // setStaffFormData(initialState);
               toast.success(response.data?.message);
               setTimeout(() => {
                 navigate(-1);
               }, 500);
-            }else if(response.data.error){
-              toast.error(response.data.error)
+            } else if (response.data.error) {
+              toast.error(response.data.error);
               setTimeout(() => {
                 // navigate(-1);
               }, 500);
-            }
-            else{
-              toast.error('Unknown Error')
+            } else {
+              toast.error("Unknown Error");
               setTimeout(() => {
                 // navigate(-1);
               }, 500);
@@ -179,6 +200,7 @@ export const AddEditStaff = () => {
           })
           .catch((err) => toast.error(err.response));
       }
+      
     }
   };
 

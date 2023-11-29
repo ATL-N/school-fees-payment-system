@@ -26,23 +26,24 @@ export const EnterMarks = (props) => {
                 <thead>
                   <tr>
                     <th>Student</th>
-                    <th>Class Score</th>
-                    <th>Exams Score</th>
-                    <th>Total Score</th>
+                    <th>Class Score(50)</th>
+                    <th>Exams Score(50)</th>
+                    <th>Total Score(100)</th>
                   </tr>
                 </thead>
                 <tbody>
                   {props.studentResults?.map((student) => (
                     <tr key={student.id}>
-                      <td>{student.StudentName}</td>
+                      <td>{student.studentname}</td>
                       <td>
                         <input
                           type="number"
                           value={props.scores[student.id]?.classCore || ""}
                           onChange={(e) =>
-                            props.handleSCoreChange(student.id, student.StudentName, 'classCore', e.target.value)
+                            props.handleSCoreChange(student.id, student.studentname, 'classCore', e.target.value)
                           }
                           className="form-input"
+                          style={{border:'1px solid gray'}}
                           name="classCore"
                           min={0}
                           max={50}
@@ -54,9 +55,10 @@ export const EnterMarks = (props) => {
                           type="number"
                           value={props.scores[student.id]?.examsCore || ""}
                           onChange={(e) =>
-                            props.handleSCoreChange(student.id, student.StudentName, 'examsCore', e.target.value)
+                            props.handleSCoreChange(student.id, student.studentname, 'examsCore', e.target.value)
                           }
                           className="form-input"
+                          style={{border:'1px solid gray'}}
                           name="examsCore"
                           min={0}
                           max={50}
@@ -68,6 +70,7 @@ export const EnterMarks = (props) => {
                           type="number"
                           value={props.scores[student.id]?.totalScore || ""}
                           className="form-input"
+                          // style={{border:'1px solid gray'}}
                           onChange={props.handleInputChange}
                           min={0}
                           max={50}

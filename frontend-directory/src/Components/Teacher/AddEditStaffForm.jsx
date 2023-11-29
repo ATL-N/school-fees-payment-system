@@ -15,16 +15,16 @@ export const AddEditStaffForm = (props) => {
         props.setStaffFormData({
           ...props.staffFormData,
           staffId: props.id,
-          image: staff.Image,
-          staffName: staff.StaffName,
-          dateOfBirth: staff.DateOfBirth,
-          contactNumber: staff.ContactNumber,
-          email: staff.Email,
-          gender: staff.Gender,
-          qualification: staff.Qualification,
-          role: staff.Role,
-          address: staff.Address,
-          salary: staff.Salary
+          image: staff.image,
+          staffName: staff.staffname,
+          dateOfBirth: staff.dateofbirth,
+          contactNumber: staff.contactnumber,
+          email: staff.email,
+          gender: staff.gender,
+          qualification: staff.qualification,
+          role: staff.role,
+          address: staff.address,
+          salary: staff.salary
         })
 
         ))   
@@ -54,13 +54,15 @@ export const AddEditStaffForm = (props) => {
         <form action="" onSubmit={props.handleSubmit} className='input-area-div' style={{marginTop:'0px'}}>
           <div className='form-without-button-div'> 
           <div className='group-div'>
-            <div className='form-input-div'> Picture: 
+
+            {!props.id && <div className='form-input-div'> Picture: 
               <input type="file" 
                 accept="image/jpeg, image/png" 
                 name='image' 
                 onChange={props.handleInputChange} 
                 className='form-input' />
             </div>
+            }
 
             <div className='form-input-div'>Staff Name: 
               <input type="text" 
@@ -69,7 +71,7 @@ export const AddEditStaffForm = (props) => {
                 onChange={props.handleInputChange}
                 placeholder="Enter the staff name here..." 
                 className='form-input'
-                readOnly={props.id !== null || props.id!==''||props.id !== undefined}
+                // readOnly={props.id !== null || props.id!==''||props.id !== undefined}
                 />
             </div>
 

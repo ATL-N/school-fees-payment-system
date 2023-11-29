@@ -19,12 +19,13 @@ export const UserAccount =()=>{
         .then((res) => {
           if (res.data.userDetails == "" || res.data.userDetails == null) {
             navigate("/loginPage");
+            console.log("running userdetails useeffect if", res.data.userDetails);
           } else {
-            console.log('userDetails uploads', userDetails)
+            console.log('userDetails uploads', res.data.userDetails)
             setUserDetails(res.data.userDetails);
             imgurl = res.data.userDetails
             setSelectedImage(
-                `http://localhost:5050/uploads/${imgurl.Image}`
+                imgurl.image
               );  
           }
         })

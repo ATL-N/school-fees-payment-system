@@ -58,12 +58,12 @@ export const SubjectListing = () => {
           "http://localhost:5050/api/getSubjects"
         );
         setResults(response.data);
-        console.log("response:", response.data);
+        console.log("response result:", response.data);
         setErrorMessage("Please enter a search query.");
         return;
       } else {
         const response = await axios.get(
-          `http://localhost:5050/api/searchClasses?query=${encodeURIComponent(
+          `http://localhost:5050/api/searchSubject?query=${encodeURIComponent(
             query
           )}`
         );

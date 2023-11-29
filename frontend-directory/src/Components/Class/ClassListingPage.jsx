@@ -54,9 +54,9 @@ export const ClassListingPage = (props) => {
               {props.results?.map((classes) => (
                 <tr key={classes.id}>
                   <td>{classes.id}</td>
-                  <td>{classes.ClassName}</td>
-                  <td>{classes.ClassTeacher}</td>
-                  <td>{classes.ClassSize}</td>
+                  <td>{classes.classname}</td>
+                  <td>{classes.classteacher}</td>
+                  <td>{classes.classsize}</td>
                   <td>
                     {/* <Link to={`/viewClassDetails/${encodeURIComponent(classes.id)}`} className='link-remove form-button nav-button next-btn submit-btn'>View</Link> */}
                     <Link
@@ -67,7 +67,7 @@ export const ClassListingPage = (props) => {
                     </Link>
                     <button
                       onClick={() =>
-                        props.handleDelete(classes.id, classes.ClassName)
+                        props.handleDelete(classes.id, classes.classname)
                       }
                       className="link-remove form-button clear-btn"
                     >

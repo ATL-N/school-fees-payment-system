@@ -12,7 +12,7 @@ const StudentDetailsPage = (props) => {
       </div>
 
       <div className="preview-div">
-          {props.imageUrl?  <img src={props.imageUrl  } alt="Preview" className="img-preview-div"/> : <div className="img-preview-div" >load image to Preview</div>}
+          {props.imageUrl?  <img src={props.student.image  } alt="Preview" className="img-preview-div"/> : <div className="img-preview-div" >load image to Preview</div>}
        </div>
 
       <div className='input-area-container'>
@@ -24,23 +24,23 @@ const StudentDetailsPage = (props) => {
 
 
             <div className='form-input-div'>student Name: 
-              <strong>{props.student.StudentName? props.student?.StudentName: 'na'}</strong>
+              <strong>{props.student.studentname? props.student?.studentname : 'na'}</strong>
             </div>
 
             <div className='form-input-div'>Date of Birth: 
-                <strong>{props.student?.DateOfBirth}</strong>
+                <strong>{props.student?.dateofbirth}</strong>
             </div>
 
             <div className='form-input-div'>Gender: 
-              <strong>{props.student?.Gender}</strong>
+              <strong>{props.student?.gender}</strong>
             </div>
 
             <div className='form-input-div'>student Class: 
-              <strong>{props.student?.Class}</strong>
+              <strong>{props.student?.classname}</strong>
             </div>
 
             <div className='form-input-div'>Address: 
-            <strong>{props.student?.Address}</strong>
+            <strong>{props.student?.address}</strong>
           </div>
 
           </div>
@@ -49,7 +49,7 @@ const StudentDetailsPage = (props) => {
           < div className='group-title-div'>FEES Details</div>
 
             <div className='form-input-div'>Current Balance: 
-             <strong>{props.student?.AmountOwed}</strong>
+             <strong>{props.student?.amountowed}</strong>
             </div>
           </div>
 
@@ -58,26 +58,26 @@ const StudentDetailsPage = (props) => {
           < div className='group-title-div'>First Parent Details</div>
             
             <div className='form-input-div'>Parent 1 Name: 
-                <strong>{props.parent1.ParentName? props.parent1?.ParentName: 'N/A'}</strong>
+                <strong>{props.parent1.parentname? props.parent1?.parentname: 'N/A'}</strong>
             </div>
 
             <div className='form-input-div' >Parent 1 Tel: 
-                <strong>{props.parent1.ContactNumber? props.parent1.ContactNumber: 'N/A'}</strong>
+                <strong>{props.parent1.contactnumber? props.parent1.contactnumber: 'N/A'}</strong>
             </div>
 
             <div className='form-input-div' >Parent 1 Email: 
-                <strong>{props.parent1.Email? props.parent1.Email: 'N/A'}</strong>
+                <strong>{props.parent1.email? props.parent1.email: 'N/A'}</strong>
             </div>
 
             
 
             <div className='form-input-div'>Address: 
-                <strong>{props.parent1?.ResidenceAddress? props.parent1.ResidenceAddress : 'N/A'}</strong>
+                <strong>{props.parent1?.residenceaddress? props.parent1.residenceaddress : 'N/A'}</strong>
             </div>
 
 
             <div className='form-input-div'>Relation to student: 
-                <strong>{props.parent1Mapping?.RelationToWard ? props.parent1Mapping.RelationToWard : 'N/A'}</strong>
+                <strong>{props.parent1Mapping?.relationtoward ? props.parent1Mapping.relationtoward : 'N/A'}</strong>
             </div>
 
         </div>
@@ -86,23 +86,23 @@ const StudentDetailsPage = (props) => {
             < div className='group-title-div'>Second Parent Details</div>
                 
             <div className='form-input-div'>Parent 2 Name: 
-                <strong>{props.parent2?.ParentName ? props.parent2.ParentName : 'N/A'}</strong>
+                <strong>{props.parent2?.parentname ? props.parent2.parentname : 'N/A'}</strong>
             </div>
 
             <div className='form-input-div' >Parent 2 Tel: 
-                <strong>{props.parent2?.ContactNumber ? props.parent2?.ContactNumber : 'N/A'}</strong>
+                <strong>{props.parent2?.contactnumber ? props.parent2?.contactnumber : 'N/A'}</strong>
             </div>
 
             <div className='form-input-div' >Parent 2 Email: 
-                <strong>{props.parent2.Email ? props.parent2.Email : 'N/A'}</strong>
+                <strong>{props.parent2.email ? props.parent2.email : 'N/A'}</strong>
             </div>
 
             <div className='form-input-div'>parent 2 Address: 
-                <strong>{props.parent2?.ResidenceAddress ? props.parent2?.ResidenceAddress : 'N/A'}</strong>
+                <strong>{props.parent2?.residenceaddress ? props.parent2?.residenceaddress : 'N/A'}</strong>
             </div>
 
             <div className='form-input-div'>Relation to student: 
-                <strong>{props.parent2Mapping?.RelationToWard ? props.parent2Mapping?.RelationToWard : 'N/A'}</strong>
+                <strong>{props.parent2Mapping?.relationtoward ? props.parent2Mapping?.relationtoward : 'N/A'}</strong>
             </div>
 
         </div>

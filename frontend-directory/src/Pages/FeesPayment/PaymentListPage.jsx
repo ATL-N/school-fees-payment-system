@@ -47,29 +47,26 @@ const PaymentListPage = (props) => {
               {props.payments?.map(payment => (
                 <tr key={payment.id}>
                   <td>{payment.id}</td>
-                  <td>{payment.StudentName}</td>
-                  <td>{payment.AmountPaid.toLocaleString('en-GH', {
+                  <td>{payment.studentname}</td>
+                  <td>{payment.amountpaid.toLocaleString('en-GH', {
                       style: 'currency',
                       currency: 'GHS',
                       minimumFractionDigits: 2,
                     })} </td>
-                  <td>{(-1 * payment.InitialAccountBalance).toLocaleString('en-GH', {
+                  <td>{(-1 * payment.initialaccountbalance).toLocaleString('en-GH', {
                       style: 'currency',
                       currency: 'GHS',
                       minimumFractionDigits: 2,
                     })}</td>
-                  <td>{(-1* payment.CurrentBalance).toLocaleString('en-GH', {
+                  <td>{(-1* payment.currentbalance).toLocaleString('en-GH', {
                       style: 'currency',
                       currency: 'GHS',
                       minimumFractionDigits: 2,
                     })}
                   </td>
-                  <td>{payment.PaymentDate}</td>
-                  <td>{payment.FeesName}</td>
-                  {/* <td>{payment.ReceivedFrom}</td> */}
-                  {/* <td>{payment.Comment}</td> */}
+                  <td>{payment.paymentdate}</td>
+                  <td>{payment.feesname}</td>
                   <td>
-                  {/* <Link to={`/viewStudentDetails/${encodeURIComponent(payment.id)}`} className='link-remove form-button nav-button next-btn submit-btn'>View</Link> */}
                   <Link target='_blank' to={`/printPayment/${encodeURIComponent(payment.id)}`} className='link-remove form-button nav-button next-btn submit-btn'>Print</Link>
                   </td>
                 </tr>
@@ -78,9 +75,6 @@ const PaymentListPage = (props) => {
           </table>
         </div>
       </div>
-      {/* <div>
-        <input type="button" value="add a new payment" className='search-button' />
-      </div> */}
     </form>
   );
 };

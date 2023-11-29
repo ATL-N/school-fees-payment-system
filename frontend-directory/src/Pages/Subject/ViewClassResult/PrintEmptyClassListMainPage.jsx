@@ -178,7 +178,7 @@ export const PrintEmptyClassListMainPage = () => {
       const subStaff = subResult.find(
         (subject) => subject.id === parseInt(value)
       );
-      const subjectName = subStaff ? subStaff.SubjectName : null;
+      const subjectName = subStaff ? subStaff.subjectname : null;
       setMyFormData({
         ...myFormData,
         subjectId: parseInt(value),
@@ -198,7 +198,7 @@ export const PrintEmptyClassListMainPage = () => {
       console.log("running subjectId");
       const clasStaff = clasResult.find((clas) => clas.id === parseInt(value));
       console.log("clasStaff", clasStaff);
-      const className = clasStaff ? clasStaff.ClassName : null;
+      const className = clasStaff ? clasStaff.classname : null;
       setMyFormData({
         ...myFormData,
         classId: parseInt(value),
@@ -223,7 +223,7 @@ export const PrintEmptyClassListMainPage = () => {
       const selectedStaff = result.find(
         (staff) => staff.id === parseInt(value)
       );
-      const staffName = selectedStaff ? selectedStaff.StaffName : null;
+      const staffName = selectedStaff ? selectedStaff.staffname : null;
       setMyFormData({
         ...myFormData,
         staffId: parseInt(value),
@@ -234,7 +234,7 @@ export const PrintEmptyClassListMainPage = () => {
       const selectedStaff = result.find(
         (staff) => staff.id === parseInt(value)
       );
-      const staffName = selectedStaff ? selectedStaff.StaffName : null;
+      const staffName = selectedStaff ? selectedStaff.staffname : null;
       setMyFormData({
         ...myFormData,
         staffId: parseInt(value),

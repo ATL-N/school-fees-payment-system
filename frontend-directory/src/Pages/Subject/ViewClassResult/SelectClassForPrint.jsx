@@ -23,14 +23,14 @@ export const SelectClassForPrint = (props) => {
           <div className='form-without-button-div div2'> 
           <div className='group-div'>
 
-            <div className='form-input-div'>select Class: 
+            <div className='form-input-div'>Class Name: 
               <select required defaultValue={''} name="classId" id="classId" className='form-input' 
               onChange={(e) => props.handleClassChange(e, props.clasResults)} 
               value={props.myFormData.classId}
               >
-                <option value="" disabled >select class from system</option>
+                <option value="" disabled >select class </option>
                 {props.clasResults?.map((clas) => (
-                  <option key={clas.id} value={clas.id}>{clas.ClassName}</option>
+                  <option key={clas.id} value={clas.id}>{clas.classname}</option>
                 ))}            
               </select>
             </div>

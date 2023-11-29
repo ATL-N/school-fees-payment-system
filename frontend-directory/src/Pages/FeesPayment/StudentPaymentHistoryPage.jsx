@@ -30,8 +30,6 @@ export const StudentPaymentHistoryPage = (props) => {
                 <th>current Balance(Ghc)</th>
                 <th>Payment Date</th>
                 <th>fee description</th>
-                {/* <th>Received From</th> */}
-                {/* <th>Comment</th> */}
                 <th>Action</th>
               </tr>
             </thead>
@@ -39,27 +37,27 @@ export const StudentPaymentHistoryPage = (props) => {
               {props.payments.map(payment => (
                 <tr key={payment.id}>
                   <td>{payment.id!==''? payment.id: 'N/A'}</td>
-                  <td>{payment.id? payment.StudentName: 'N/A'}</td>
-                  <td>{payment.AmountPaid.toLocaleString('en-GH', {
+                  <td>{payment.id? payment.studentname: 'N/A'}</td>
+                  <td>{payment.amountpaid.toLocaleString('en-GH', {
                       style: 'currency',
                       currency: 'GHS',
                       minimumFractionDigits: 2,
                     })} 
                   </td>
-                  <td>{(-1 * payment.InitialAccountBalance).toLocaleString('en-GH', {
+                  <td>{(-1 * payment.initialaccountbalance).toLocaleString('en-GH', {
                       style: 'currency',
                       currency: 'GHS',
                       minimumFractionDigits: 2,
                     })}
                   </td>
-                  <td>{(-1 * payment.CurrentBalance).toLocaleString('en-GH', {
+                  <td>{(-1 * payment.currentbalance).toLocaleString('en-GH', {
                       style: 'currency',
                       currency: 'GHS',
                       minimumFractionDigits: 2,
                     })}
                   </td>
-                  <td>{payment.PaymentDate}</td>
-                  <td>{payment.FeesName}</td>
+                  <td>{payment.paymentdate}</td>
+                  <td>{payment.feesname}</td>
                   <td>
                   <Link to={`/viewStudentDetails/${encodeURIComponent(payment.id)}`} className='link-remove form-button nav-button next-btn submit-btn'>View</Link>
                   <Link to={`/viewStudentDetails/${encodeURIComponent(payment.id)}`} className='link-remove form-button nav-button next-btn submit-btn'>Print</Link>

@@ -36,13 +36,13 @@ export const AttendancePage = (props) => {
                 <tbody>
                   {props.studentResults?.map((student) => (
                     <tr key={student.id}>
-                      <td>{student.StudentName}</td>
+                      <td>{student.studentname}</td>
                       <td>
                         <input
                           type="radio"
                           value={'Abscent'}
                           onChange={(e) =>
-                            props.handleAttendanceChange(student.id, student.StudentName, 'status', e.target.value)
+                            props.handleAttendanceChange(student.id, student.studentname, 'status', e.target.value)
                           }
                           className="radio-btn"
                           name={student.id + "attendance"}
@@ -56,7 +56,7 @@ export const AttendancePage = (props) => {
                           type="radio"
                           value={'Present'}
                           onChange={(e) =>
-                            props.handleAttendanceChange(student.id, student.StudentName, 'status', e.target.value)
+                            props.handleAttendanceChange(student.id, student.studentname, 'status', e.target.value)
                           }
                           className="radio-btn"
                           name={student.id + "attendance"}

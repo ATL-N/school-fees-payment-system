@@ -3,14 +3,18 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { FeesAddingForm } from "./FeesAddingForm";
+import { StateContext } from "../utils/Context";
 
 export const FeesAdding = () => {
+
+  const { showNavBar, setShowNavBar, userDetails, setUserDetails, currentTerm, setCurrentTerm } = useContext(StateContext);
+  console.log("currentTerm:", currentTerm)
+
   const initialState = {
     classId: null,
     className: "",
-    dateStart: "",
-    semester: "",
-    dateEnd: "",
+    semesterid: currentTerm.id,
+    semestername: currentTerm.semestername,
     feesType: "",
     feesForTheTime: null,
   };
@@ -19,6 +23,7 @@ export const FeesAdding = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [classResults, setClassResults] = useState([]);
+  var check = 0
 
   const updateField = (field, value) => {
     setFeesAddingFormData({
@@ -38,7 +43,7 @@ export const FeesAdding = () => {
     } else if (name === "classid") {
       const clas = clasResult.find((classe) => classe.id === parseInt(value));
       console.log("clas", clas, clasResult);
-      const stuClas = clas ? clas.ClassName : null;
+      const stuClas = clas ? clas.classname : null;
       console.log("clas3", clas, stuClas);
       setFeesAddingFormData({
         ...feesAddingFormData,
@@ -64,6 +69,13 @@ export const FeesAdding = () => {
     const response = await axios.get("http://localhost:5050/api/getClasses");
     setClassResults(response.data);
     console.log("fetching Teachers");
+
+    const currentSem = await axios.get(
+      "http://localhost:5050/api/getSemester"
+    );
+    setCurrentTerm(currentSem.data[0]);
+    console.log("currentSem:", currentSem.data[0].semestername);
+
   };
 
   const handleSubmit = (e) => {
@@ -85,7 +97,7 @@ export const FeesAdding = () => {
             classId: feesAddingFormData.classId,
             className: feesAddingFormData.className,
             dateStart: feesAddingFormData.dateStart,
-            semester: feesAddingFormData.semester,
+            semesterid: feesAddingFormData.semesterid,
             dateEnd: feesAddingFormData.dateEnd,
             feesForTheTime: feesAddingFormData.feesForTheTime,
             feesType: feesAddingFormData.feesType,
@@ -106,7 +118,15 @@ export const FeesAdding = () => {
 
   useEffect(() => {
     fetchClasses();
-  }, []);
+    setFeesAddingFormData({
+      ...feesAddingFormData,
+      semesterid: currentTerm.id,
+      semestername: currentTerm.semestername,
+    })
+    if (check<=2){
+      check = check + 1
+    }
+  }, [check]);
 
   return (
     <div className="form-container">
@@ -118,7 +138,7 @@ export const FeesAdding = () => {
         classResults={classResults}
         setFeesAddingFormData={setFeesAddingFormData}
         id={id}
-        // feesAddingFormData = {feesAddingFormData}
+        currentTerm = {currentTerm}
       />
     </div>
   );
