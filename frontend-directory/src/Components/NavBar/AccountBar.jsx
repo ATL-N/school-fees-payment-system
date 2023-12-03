@@ -15,7 +15,7 @@ export const UserAccount =()=>{
     useEffect(() => {
       setShowNavBar(true);
       axios
-        .get("http://localhost:5050/home")
+        .get("postgres://schoolfeessystem_user:C2W8okMeXaRmvdfynkQ8XS6Tupr9tdnl@dpg-clhs3b7jc5ks73eo6j5g-a/schoolfeessystem/home")
         .then((res) => {
           if (res.data.userDetails == "" || res.data.userDetails == null) {
             navigate("/loginPage");
@@ -55,7 +55,6 @@ export const UserAccount =()=>{
     const handleMouseClick = () => {
         setShowCategories(!showCategories)
         // console.log("handleMouseLeave", showCategories)
-
     }
 
 
