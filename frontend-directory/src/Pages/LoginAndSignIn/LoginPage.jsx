@@ -47,7 +47,7 @@ axios.defaults.withCredentials = true;
     if (!loginFormData.username || !loginFormData.password) {
       toast.error("Please provide a value for each input field.");
     } else {
-      const apiUrl = "http://localhost:5050/api/login";
+      const apiUrl = "https://school-fees-payment-system-server.onrender.com/api/login";
 
       axios
         .post(apiUrl, {
