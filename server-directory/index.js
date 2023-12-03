@@ -16,12 +16,12 @@ require('dotenv').config();
 
 const app = express();
 
-const db = mysql.createPool({
-  host: "127.0.0.1",
-  user: "root",
-  password: "12345678",
-  database: "SchoolFeesSystem",
-});
+// const db = mysql.createPool({
+//   host: "127.0.0.1",
+//   user: "root",
+//   password: "12345678",
+//   database: "SchoolFeesSystem",
+// });
 
 const pool = new Pool({
   user: process.env.DB_USER,
