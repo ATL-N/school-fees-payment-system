@@ -494,9 +494,11 @@ pool.connect((err) => {
             result.rows[0].password
           );
 
+          console.log('passResult', passResult)
+
           if (passResult) {
             req.session.userDetails = result.rows[0];
-            // console.log('result.rows[0]', req.session.userDetails)
+            console.log('result.rows[0]', req.session.userDetails)
             res.status(200).json({
               result: result.rows,
               userDetails: req.session.userDetails,
