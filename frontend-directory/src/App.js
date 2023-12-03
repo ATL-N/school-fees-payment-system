@@ -65,7 +65,7 @@ function App() {
       setCurrentTerm(currentSem.data[0]);
       console.log("currentSem:", currentSem.data[0].semestername);
       }catch(error){
-        console.log('')
+        console.log('error', error)
       }
   }
   
