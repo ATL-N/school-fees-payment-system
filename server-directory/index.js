@@ -23,22 +23,22 @@ const db = mysql.createPool({
   database: "SchoolFeesSystem",
 });
 
-const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT, // Default PostgreSQL port
-  ssl: true,  // Enable SSL
-});
-
 // const pool = new Pool({
-//   user: "postgres",
-//   host: "127.0.0.1",
-//   database: "schoolfeessystem",
-//   password: 123,
-//   port: 5432, // Default PostgreSQL port
+//   user: process.env.DB_USER,
+//   host: process.env.DB_HOST,
+//   database: process.env.DB_NAME,
+//   password: process.env.DB_PASSWORD,
+//   port: process.env.DB_PORT, // Default PostgreSQL port
+//   ssl: true,  // Enable SSL
 // });
+
+const pool = new Pool({
+  user: "postgres",
+  host: "127.0.0.1",
+  database: "schoolfeessystem",
+  password: 123,
+  port: 5432, // Default PostgreSQL port
+});
 
 const PORT = process.env.PORT || 5050;
 

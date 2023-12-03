@@ -2,8 +2,9 @@ import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { StateProvider, StateContext } from "./Components/utils/Context";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import {
   BrowserRouter,
   Route,
@@ -53,6 +54,25 @@ import { MainAttendaceViewPage } from "./Pages/Attendance/MainAttendaceViewPage"
 import { AddEditSemester } from "./Pages/Semester/AddEditSemester";
 
 function App() {
+
+  const { showNavBar, setShowNavBar, userDetails, setUserDetails, currentTerm, setCurrentTerm } = useContext(StateContext);
+
+  const loadData = async () => {
+    try {
+      const currentSem = await axios.get(
+        "http://postgres://schoolfeessystem_user:C2W8okMeXaRmvdfynkQ8XS6Tupr9tdnl@dpg-clhs3b7jc5ks73eo6j5g-a/schoolfeessystem/api/getSemester"
+      );
+      setCurrentTerm(currentSem.data[0]);
+      console.log("currentSem:", currentSem.data[0].semestername);
+      }catch(error){
+        console.log('')
+      }
+  }
+  
+  useEffect(()=>{
+    loadData()
+  },[])
+
   return (
     <StateProvider>
       <BrowserRouter>
