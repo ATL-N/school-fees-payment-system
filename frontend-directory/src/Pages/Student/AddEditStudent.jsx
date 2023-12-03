@@ -279,7 +279,7 @@ export const AddEditStudent = () => {
   const loadData = async () => {
     try {
       const studentResponse = await axios.get(
-        `http://localhost:5050/api/getStudent/${id}`
+        `dpg-clhs3b7jc5ks73eo6j5g-a.frankfurt-postgres.render.com/api/getStudent/${id}`
       );
       if (studentResponse.data.length > 0) {
         const selectedStudent = studentResponse.data[0];
@@ -290,7 +290,7 @@ export const AddEditStudent = () => {
         console.log("studentIddddd", mainParentId);
 
         const parentMappingResponse = await axios.get(
-          `http://localhost:5050/api/getStudentParentsMapping/${studentId}`
+          `dpg-clhs3b7jc5ks73eo6j5g-a.frankfurt-postgres.render.com/api/getStudentParentsMapping/${studentId}`
         );
         console.log(
           "parentMappingResponse",
