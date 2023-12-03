@@ -27,7 +27,7 @@ export const Dashboard = () => {
   useEffect(() => {
     setShowNavBar(true);
     axios
-      .get("dpg-clhs3b7jc5ks73eo6j5g-a.frankfurt-postgres.render.com/home")
+      .get("https://school-fees-payment-system-server.onrender.com/home")
       .then((res) => {
         if (res.data.userDetails == "" || res.data.userDetails == null) {
           navigate("/loginPage");
@@ -51,7 +51,7 @@ export const Dashboard = () => {
   const loadData = async () => {
     try {
       const currentSem = await axios.get(
-        "dpg-clhs3b7jc5ks73eo6j5g-a.frankfurt-postgres.render.com/api/getSemester"
+        "dpg-clhhttps://school-fees-payment-system-server.onrender.com/api/getSemester"
       );
       setCurrentTerm(currentSem.data[0]);
       console.log("currentSem:", currentSem.data[0].semestername);
@@ -96,13 +96,13 @@ export const Dashboard = () => {
       // console.log("Total amount for week:", amounts, sum);
 
       const Staffresponse = await axios.get(
-        "http://localhost:5050/api/getStaff"
+        "https://school-fees-payment-system-server.onrender.com/api/getStaff"
       );
       setStaff(Staffresponse.data);
       // console.log("Staffresponse:", Staffresponse.data);
 
       const Studentresponse = await axios.get(
-        "http://localhost:5050/api/getStudents"
+        "https://school-fees-payment-system-server.onrender.com/api/getStudents"
       );
       setStudents(Studentresponse.data);
       console.log("Studentresponse:", Studentresponse.data);
@@ -111,13 +111,13 @@ export const Dashboard = () => {
 
 
       const newStudentresponse = await axios.get(
-        "http://localhost:5050/api/getNewStudentsForDay"
+        "https://school-fees-payment-system-server.onrender.com/api/getNewStudentsForDay"
       );
       setNewStudents(newStudentresponse.data);
       // console.log("newStudentresponse:", newStudentresponse.data);
 
       const studentOwingresponse = await axios.get(
-        "http://localhost:5050/api/getStudentsOwing"
+        "https://school-fees-payment-system-server.onrender.com/api/getStudentsOwing"
       );
       setStudentsOwing(studentOwingresponse.data);
       // console.log("studentOwingresponse:", studentOwingresponse.data);
