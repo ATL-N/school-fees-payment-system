@@ -106,10 +106,13 @@ pool.connect((err) => {
     app.get("/home", (req, res) => {
       console.log("home api running");
       if (req.session.userDetails) {
-        // console.log('req.session.userDetails', req.session.userDetails)
+        console.log('req.session.userDetails', req.session.userDetails)
         res.json({ userDetails: req.session.userDetails });
       } else {
+        console.log('req.session.userDetails 225555', req.session.userDetails)
+
         return res.json({ error: "Please sign in to access the page " });
+
       }
     }); //postgres
 
