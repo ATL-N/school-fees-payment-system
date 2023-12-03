@@ -27,7 +27,7 @@ export const Dashboard = () => {
   useEffect(() => {
     setShowNavBar(true);
     axios
-      .get("dpg-clhs3b7jc5ks73eo6j5g-a.frankfurt-postgres.render.com/home")
+      .get("postgres://schoolfeessystem_user:C2W8okMeXaRmvdfynkQ8XS6Tupr9tdnl@dpg-clhs3b7jc5ks73eo6j5g-a/schoolfeessystem/home")
       .then((res) => {
         if (res.data.userDetails == "" || res.data.userDetails == null) {
           navigate("/loginPage");
@@ -51,14 +51,14 @@ export const Dashboard = () => {
   const loadData = async () => {
     try {
       const currentSem = await axios.get(
-        "dpg-clhs3b7jc5ks73eo6j5g-a.frankfurt-postgres.render.com/api/getSemester"
+        "postgres://schoolfeessystem_user:C2W8okMeXaRmvdfynkQ8XS6Tupr9tdnl@dpg-clhs3b7jc5ks73eo6j5g-a/schoolfeessystem/api/getSemester"
       );
       setCurrentTerm(currentSem.data[0]);
       console.log("currentSem:", currentSem.data[0].semestername);
 
   
       const response = await axios.get(
-        "dpg-clhs3b7jc5ks73eo6j5g-a.frankfurt-postgres.render.com/api/getPaymentsForDay"
+        "postgres://schoolfeessystem_user:C2W8okMeXaRmvdfynkQ8XS6Tupr9tdnl@dpg-clhs3b7jc5ks73eo6j5g-a/schoolfeessystem/api/getPaymentsForDay"
       );
       setPayments(response.data);
       // console.log("response:", response.data);
@@ -76,7 +76,7 @@ export const Dashboard = () => {
       // console.log("Total amount:", amounts, sum);
 
       const paymentForWeekresponse = await axios.get(
-        "dpg-clhs3b7jc5ks73eo6j5g-a.frankfurt-postgres.render.com/api/getPaymentsForWeek"
+        "postgres://schoolfeessystem_user:C2W8okMeXaRmvdfynkQ8XS6Tupr9tdnl@dpg-clhs3b7jc5ks73eo6j5g-a/schoolfeessystem/api/getPaymentsForWeek"
       );
       setPaymentsForWeek(paymentForWeekresponse.data);
       // console.log("paymentForWeekresponse:", paymentForWeekresponse.data);

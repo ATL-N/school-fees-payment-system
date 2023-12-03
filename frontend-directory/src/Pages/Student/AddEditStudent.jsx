@@ -279,7 +279,7 @@ export const AddEditStudent = () => {
   const loadData = async () => {
     try {
       const studentResponse = await axios.get(
-        `dpg-clhs3b7jc5ks73eo6j5g-a.frankfurt-postgres.render.com/api/getStudent/${id}`
+        `postgres://schoolfeessystem_user:C2W8okMeXaRmvdfynkQ8XS6Tupr9tdnl@dpg-clhs3b7jc5ks73eo6j5g-a/schoolfeessystem/api/getStudent/${id}`
       );
       if (studentResponse.data.length > 0) {
         const selectedStudent = studentResponse.data[0];
@@ -290,7 +290,7 @@ export const AddEditStudent = () => {
         console.log("studentIddddd", mainParentId);
 
         const parentMappingResponse = await axios.get(
-          `dpg-clhs3b7jc5ks73eo6j5g-a.frankfurt-postgres.render.com/api/getStudentParentsMapping/${studentId}`
+          `postgres://schoolfeessystem_user:C2W8okMeXaRmvdfynkQ8XS6Tupr9tdnl@dpg-clhs3b7jc5ks73eo6j5g-a/schoolfeessystem/api/getStudentParentsMapping/${studentId}`
         );
         console.log(
           "parentMappingResponse",
