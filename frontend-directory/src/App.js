@@ -60,7 +60,7 @@ function App() {
   const loadData = async () => {
     try {
       const currentSem = await axios.get(
-        "postgres://schoolfeessystem_user:C2W8okMeXaRmvdfynkQ8XS6Tupr9tdnl@dpg-clhs3b7jc5ks73eo6j5g-a/schoolfeessystem/api/getSemester"
+        "dpg-clhs3b7jc5ks73eo6j5g-a.frankfurt-postgres.render.com/api/getSemester"
       );
       setCurrentTerm(currentSem.data[0]);
       console.log("currentSem:", currentSem.data[0].semestername);
