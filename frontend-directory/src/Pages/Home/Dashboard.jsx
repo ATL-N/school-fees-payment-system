@@ -30,7 +30,7 @@ export const Dashboard = () => {
       .get("https://school-fees-payment-system-server.onrender.com/home")
       .then((res) => {
         if (res.data.userDetails == "" || res.data.userDetails == null) {
-          navigate("/loginPage");
+          // navigate("/loginPage");
           console.log("running userdetails useeffect if");
 
           
