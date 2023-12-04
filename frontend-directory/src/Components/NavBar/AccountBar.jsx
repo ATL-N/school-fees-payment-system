@@ -15,7 +15,7 @@ export const UserAccount =()=>{
     useEffect(() => {
       setShowNavBar(true);
       axios
-        .get("postgres://schoolfeessystem_user:C2W8okMeXaRmvdfynkQ8XS6Tupr9tdnl@dpg-clhs3b7jc5ks73eo6j5g-a/schoolfeessystem/home")
+        .get("https://school-fees-payment-system-server.onrender.com/home")
         .then((res) => {
           if (res.data.userDetails == "" || res.data.userDetails == null) {
             navigate("/loginPage");

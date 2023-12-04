@@ -21,10 +21,10 @@ export const StudentListing = () => {
     useEffect(() => {
       setShowNavBar(true);
       axios
-        .get("http://localhost:5050/home")
+        .get("https://school-fees-payment-system-server.onrender.com/home")
         .then((res) => {
           if (res.data.userDetails == "" || res.data.userDetails == null) {
-            navigate("/loginPage");
+            // navigate("/loginPage");
             
           } else {
             setUserDetails(res.data.userDetails);
@@ -59,13 +59,13 @@ export const StudentListing = () => {
         
         try {
             if (query.trim() === '') {
-                const response = await axios.get('http://localhost:5050/api/getStudents');
+                const response = await axios.get('https://school-fees-payment-system-server.onrender.com/api/getStudents');
                 setResults(response.data);
                 console.log("response:",response.data)
                 setErrorMessage('Please enter a search query.');
                 return;
             }else {
-            const response = await axios.get(`http://localhost:5050/api/search?query=${encodeURIComponent(query)}`);
+            const response = await axios.get(`https://school-fees-payment-system-server.onrender.com/api/search?query=${encodeURIComponent(query)}`);
             if (response.status === 200) {
                 setResults(response.data);
                 setErrorMessage('');
@@ -84,7 +84,7 @@ export const StudentListing = () => {
     const handleDelete = async (studentId) => {
       const deleteConfirmed = window.confirm("Are you sure you want to perform this action?");
       if(deleteConfirmed){
-        const response = await axios.get(`http://localhost:5050/api/deleteStudents/${studentId}`);
+        const response = await axios.get(`https://school-fees-payment-system-server.onrender.com/api/deleteStudents/${studentId}`);
         toast.success(`${studentId} deleted successfully`);
 
       }

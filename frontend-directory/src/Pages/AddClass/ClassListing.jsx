@@ -19,7 +19,7 @@ export const ClassListing = () => {
   useEffect(() => {
     setShowNavBar(true);
     axios
-      .get("http://localhost:5050/home")
+      .get("https://school-fees-payment-system-server.onrender.com/home")
       .then((res) => {
         if (res.data.userDetails == "" || res.data.userDetails == null) {
           navigate("/loginPage");
@@ -54,7 +54,7 @@ export const ClassListing = () => {
     try {
       if (query.trim() === "") {
         const response = await axios.get(
-          "http://localhost:5050/api/getClasses"
+          "https://school-fees-payment-system-server.onrender.com/api/getClasses"
         );
         setResults(response.data);
         console.log("response:", response.data);
@@ -62,7 +62,7 @@ export const ClassListing = () => {
         return;
       } else {
         const response = await axios.get(
-          `http://localhost:5050/api/searchClasses?query=${encodeURIComponent(
+          `https://school-fees-payment-system-server.onrender.com/api/searchClasses?query=${encodeURIComponent(
             query
           )}`
         );
@@ -81,7 +81,7 @@ export const ClassListing = () => {
     );
     if (deleteConfirmed) {
       const response = await axios.get(
-        `http://localhost:5050/api/deleteClass/${classId}`
+        `https://school-fees-payment-system-server.onrender.com/api/deleteClass/${classId}`
       );
       toast.success(`${ClassName} deleted succesfully`);
       setTimeout(() => {

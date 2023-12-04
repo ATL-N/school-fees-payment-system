@@ -27,7 +27,7 @@ export const AddEditClass = () => {
   useEffect(() => {
     setShowNavBar(true);
     axios
-      .get("http://localhost:5050/home")
+      .get("https://school-fees-payment-system-server.onrender.com/home")
       .then((res) => {
         if (res.data.userDetails == "" || res.data.userDetails == null) {
           navigate("/loginPage");
@@ -75,7 +75,7 @@ export const AddEditClass = () => {
   };
 
   const fetchTeachers = async () => {
-    const response = await axios.get("http://localhost:5050/api/getStaff");
+    const response = await axios.get("https://school-fees-payment-system-server.onrender.com/api/getStaff");
     setTeachers(response.data);
     console.log("fetching Teachers");
   };
@@ -83,7 +83,7 @@ export const AddEditClass = () => {
   const loadData = async () => {
     try {
       const classResponse = await axios.get(
-        `http://localhost:5050/api/getClasses/${id}`
+        `https://school-fees-payment-system-server.onrender.com/api/getClasses/${id}`
       );
       if (classResponse.data.length > 0) {
         const selectedClass = classResponse.data[0];
@@ -104,8 +104,8 @@ export const AddEditClass = () => {
       const confirmedClassAdd = window.confirm(`complete fees payment`);
       if(confirmedClassAdd){
       const apiUrl = id
-        ? `http://localhost:5050/api/updateClass/${id}`
-        : "http://localhost:5050/api/addClass";
+        ? `https://school-fees-payment-system-server.onrender.com/api/updateClass/${id}`
+        : "https://school-fees-payment-system-server.onrender.com/api/addClass";
 
       axios
         .post(apiUrl, {

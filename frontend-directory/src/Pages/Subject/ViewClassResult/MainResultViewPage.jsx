@@ -42,7 +42,7 @@ export const MainResultViewPage = () => {
   useEffect(() => {
     setShowNavBar(true);
     axios
-      .get("http://localhost:5050/home")
+      .get("https://school-fees-payment-system-server.onrender.com/home")
       .then((res) => {
         if (res.data.userDetails == "" || res.data.userDetails == null) {
           navigate("/loginPage");
@@ -79,7 +79,7 @@ export const MainResultViewPage = () => {
     console.log('started running loadclassresult')
     try {
       const classAccessmentResponse = await axios.get(
-        `http://localhost:5050/api/getAllClassAssessment?classId=${myFormData.classId}&semester=${myFormData.semester}&year=${myFormData.year}`
+        `https://school-fees-payment-system-server.onrender.com/api/getAllClassAssessment?classId=${myFormData.classId}&semester=${myFormData.semester}&year=${myFormData.year}`
       );
 
       setClassGradeResult(classAccessmentResponse?.data);
@@ -108,7 +108,7 @@ export const MainResultViewPage = () => {
       console.log("laoding data");
 
       const clasResponse = await axios.get(
-        `http://localhost:5050/api/getClasses`
+        `https://school-fees-payment-system-server.onrender.com/api/getClasses`
       );
       if (clasResponse.data.length > 0) {
         clasResult = clasResponse.data;
@@ -117,7 +117,7 @@ export const MainResultViewPage = () => {
       }
 
       const staffresponse = await axios.get(
-        "http://localhost:5050/api/getStaff"
+        "https://school-fees-payment-system-server.onrender.com/api/getStaff"
       );
       teacherResult = staffresponse.data;
       setStaffResults(staffresponse.data);
@@ -125,7 +125,7 @@ export const MainResultViewPage = () => {
 
       if (isSubjectSelected) {
         const studentResponse = await axios.get(
-          `http://localhost:5050/api/getClassStudent/${myFormData.classId}`
+          `https://school-fees-payment-system-server.onrender.com/api/getClassStudent/${myFormData.classId}`
         );
         setStudentResults(studentResponse.data);
         console.log(

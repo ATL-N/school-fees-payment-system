@@ -51,14 +51,14 @@ export const Dashboard = () => {
   const loadData = async () => {
     try {
       const currentSem = await axios.get(
-        "dpg-clhhttps://school-fees-payment-system-server.onrender.com/api/getSemester"
+        "https://school-fees-payment-system-server.onrender.com/api/getSemester"
       );
       setCurrentTerm(currentSem.data[0]);
       console.log("currentSem:", currentSem.data[0].semestername);
 
   
       const response = await axios.get(
-        "dpg-clhs3b7jc5ks73eo6j5g-a.frankfurt-postgres.render.com/api/getPaymentsForDay"
+        "https://school-fees-payment-system-server.onrender.com/api/getPaymentsForDay"
       );
       setPayments(response.data);
       // console.log("response:", response.data);

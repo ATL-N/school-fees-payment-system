@@ -26,7 +26,7 @@ export const AddEditSemester = () => {
   useEffect(() => {
     setShowNavBar(true);
     axios
-      .get("http://localhost:5050/home")
+      .get("https://school-fees-payment-system-server.onrender.com/home")
       .then((res) => {
         if (res.data.userDetails == "" || res.data.userDetails == null) {
           navigate("/loginPage");
@@ -83,8 +83,8 @@ export const AddEditSemester = () => {
       const confirmedClassAdd = window.confirm(`complete fees payment`);
       if(confirmedClassAdd){
       const apiUrl = id
-        ? `http://localhost:5050/api/updateClass/${id}`
-        : "http://localhost:5050/api/addSemester";
+        ? `https://school-fees-payment-system-server.onrender.com/api/updateClass/${id}`
+        : "https://school-fees-payment-system-server.onrender.com/api/addSemester";
 
       axios
         .post(apiUrl, {
