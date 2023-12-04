@@ -46,6 +46,7 @@ const PORT = process.env.PORT || 5050;
 app.use(
   cors({
     origin: ["http://localhost:3000"],
+    // origin: ["http://localhost:3000"],
     methods: ["POST", "GET"],
     credentials: true,
   })
@@ -64,7 +65,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: true, // Set to true if using HTTPS
+      secure: false, // Set to true if using HTTPS
       maxAge: 1000 * 60 * 60 * 24, // Session expiration time (e.g., 1 day)
     },
   })
