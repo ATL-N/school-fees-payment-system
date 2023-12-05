@@ -46,7 +46,6 @@ const PORT = process.env.PORT || 5050;
 app.use(
   cors({
     origin: ["http://localhost:3000", "https://school-fees-payment-system-frontend.onrender.com"],
-    // origin: "https://school-fees-payment-system-frontend.onrender.com",
     methods: ["POST", "GET"],
     credentials: true,
   })
@@ -54,6 +53,8 @@ app.use(
 
 app.use(express.json());
 app.use(cookieParser());
+
+app.set('trust proxy', 1);
 
 app.use(
   session({
@@ -67,7 +68,8 @@ app.use(
     cookie: {
       sameSite: 'None',
       secure: true, // Set to true if using HTTPS
-      maxAge: 1000 * 60 * 60 * 24, // Session expiration time (e.g., 1 day)
+      maxAge: 1000 * 60 * 60 * 1, // 1 hour (adjust as needed)
+      domain: 'https://school-fees-payment-system-frontend.onrender.com', // Replace with your actual domain
     },
   })
 );
