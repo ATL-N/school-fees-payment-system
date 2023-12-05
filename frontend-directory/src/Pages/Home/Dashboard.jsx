@@ -76,7 +76,7 @@ export const Dashboard = () => {
       // console.log("Total amount:", amounts, sum);
 
       const paymentForWeekresponse = await axios.get(
-        "dpg-clhs3b7jc5ks73eo6j5g-a.frankfurt-postgres.render.com/api/getPaymentsForWeek"
+        "https://school-fees-payment-system-server.onrender.com/api/getPaymentsForWeek"
       );
       setPaymentsForWeek(paymentForWeekresponse.data);
       // console.log("paymentForWeekresponse:", paymentForWeekresponse.data);
