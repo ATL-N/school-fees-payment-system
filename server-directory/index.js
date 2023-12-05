@@ -69,7 +69,7 @@ app.use(
       // sameSite: 'None',
       secure: true, // Set to true if using HTTPS
       maxAge: 1000 * 60 * 60 * 1, // 1 hour (adjust as needed)
-      // domain: 'https://school-fees-payment-system-frontend.onrender.com', // Replace with your actual domain
+      domain: 'https://school-fees-payment-system-frontend.onrender.com', // Replace with your actual domain
     },
   })
 );
