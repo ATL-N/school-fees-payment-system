@@ -6,7 +6,7 @@ import { StateContext, StateProvider } from "../../Components/utils/Context";
 
 
 export const LoginPage = () => {
-  
+
   axios.defaults.withCredentials = true;
 
   const initialState = {
@@ -56,7 +56,7 @@ axios.defaults.withCredentials = true;
         .post(apiUrl, {
           username: loginFormData.username,
           password: loginFormData.password,
-        })
+        }, { withCredentials: true })
         .then((response) => {
           const { result, message, error } = response.data;
           console.log('result', result)
