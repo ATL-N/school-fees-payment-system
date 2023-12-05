@@ -27,7 +27,7 @@ export const Dashboard = () => {
   useEffect(() => {
     setShowNavBar(true);
     axios
-      .get("http://localhost:5050/home")
+      .get("https://school-fees-payment-system-server.onrender.com/home")
       .then((res) => {
         if (res.data.userDetails == "" || res.data.userDetails == null) {
           navigate("/loginPage");

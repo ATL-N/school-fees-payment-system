@@ -50,8 +50,8 @@ axios.defaults.withCredentials = true;
       toast.error("Please provide a value for each input field.");
     } else {
       axios.defaults.withCredentials = true;
-      // const apiUrl = "https://school-fees-payment-system-server.onrender.com/api/login";
-      const apiUrl = "http://localhost:5050/api/login";
+      const apiUrl = "https://school-fees-payment-system-server.onrender.com/api/login";
+      // const apiUrl = "http://localhost:5050/api/login";
 
       axios
         .post(apiUrl, {
