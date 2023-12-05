@@ -23,22 +23,22 @@ const app = express();
 //   database: "SchoolFeesSystem",
 // });
 
-const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT, // Default PostgreSQL port
-  ssl: true,  // Enable SSL
-});
-
 // const pool = new Pool({
-//   user: "postgres",
-//   host: "127.0.0.1",
-//   database: "schoolfeessystem",
-//   password: 123,
-//   port: 5432, // Default PostgreSQL port
+//   user: process.env.DB_USER,
+//   host: process.env.DB_HOST,
+//   database: process.env.DB_NAME,
+//   password: process.env.DB_PASSWORD,
+//   port: process.env.DB_PORT, // Default PostgreSQL port
+//   ssl: true,  // Enable SSL
 // });
+
+const pool = new Pool({
+  user: "postgres",
+  host: "127.0.0.1",
+  database: "schoolfeessystem",
+  password: 123,
+  port: 5432, // Default PostgreSQL port
+});
 
 const PORT = process.env.PORT || 5050;
 
@@ -66,10 +66,10 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      sameSite: 'None',
+      // sameSite: 'None',
       secure: true, // Set to true if using HTTPS
       maxAge: 1000 * 60 * 60 * 1, // 1 hour (adjust as needed)
-      domain: 'https://school-fees-payment-system-frontend.onrender.com', // Replace with your actual domain
+      // domain: 'https://school-fees-payment-system-frontend.onrender.com', // Replace with your actual domain
     },
   })
 );
