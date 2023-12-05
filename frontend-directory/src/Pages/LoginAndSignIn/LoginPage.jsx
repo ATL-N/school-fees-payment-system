@@ -6,6 +6,8 @@ import { StateContext, StateProvider } from "../../Components/utils/Context";
 
 
 export const LoginPage = () => {
+  
+  axios.defaults.withCredentials = true;
 
   const initialState = {
     username: "",
@@ -47,6 +49,7 @@ axios.defaults.withCredentials = true;
     if (!loginFormData.username || !loginFormData.password) {
       toast.error("Please provide a value for each input field.");
     } else {
+      axios.defaults.withCredentials = true;
       const apiUrl = "https://school-fees-payment-system-server.onrender.com/api/login";
 
       axios
